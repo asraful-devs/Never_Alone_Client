@@ -1,32 +1,40 @@
-import {
-    getInputFieldError,
-    IInputErrorState,
-} from '../../lib/getInputFieldError';
-import { FieldDescription } from '../ui/field';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 interface InputFieldErrorProps {
     field: string;
-    state: IInputErrorState;
+    state: any;
 }
 
 const InputFieldError = ({ field, state }: InputFieldErrorProps) => {
-    if (getInputFieldError(field, state)) {
-        return (
-            <FieldDescription className='text-red-500 dark:text-red-400 font-medium text-xs mt-2 flex items-center gap-1'>
-                <svg
-                    className='w-4 h-4 flex-shrink-0'
-                    fill='currentColor'
-                    viewBox='0 0 20 20'
-                >
-                    <path
-                        fillRule='evenodd'
-                        d='M18.101 12.93a1 1 0 00-1.414-1.414L10 15.586 3.314 8.9a1 1 0 00-1.414 1.414l7.07 7.07a1 1 0 001.414 0l8.101-8.101z'
-                        clipRule='evenodd'
-                    />
-                </svg>
-                {getInputFieldError(field, state)}
-            </FieldDescription>
-        );
+    // Handle null/undefined state
+    if (!state) return null;
+
+    // Case 1: errors as object { email: "Error message", password: "Error message" }
+    if (
+        state.errors &&
+        typeof state.errors === 'object' &&
+        !Array.isArray(state.errors)
+    ) {
+        const errorMessage = state.errors[field];
+        if (errorMessage) {
+            return (
+                <p className='text-xs text-red-600 dark:text-red-400 mt-1'>
+                    {errorMessage}
+                </p>
+            );
+        }
+    }
+
+    // Case 2: errors as array [{ field: "email", message: "Error" }, ...]
+    if (Array.isArray(state.errors)) {
+        const errorObj = state.errors.find((err: any) => err.field === field);
+        if (errorObj && errorObj.message) {
+            return (
+                <p className='text-xs text-red-600 dark:text-red-400 mt-1'>
+                    {errorObj.message}
+                </p>
+            );
+        }
     }
 
     return null;

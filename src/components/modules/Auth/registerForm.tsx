@@ -1,7 +1,7 @@
 'use client';
 
-import { useActionState, useState } from 'react';
-
+import Link from 'next/link';
+import { useActionState, useEffect, useState } from 'react';
 import { registerUser } from '../../../service/auth/registerUser';
 import EyeButton from '../../common/EyeButton';
 import InputFieldError from '../../common/InputFieldError';
@@ -15,204 +15,243 @@ const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    // Debug: Check state changes
+    useEffect(() => {
+        if (state) {
+            console.log('Register form state:', state);
+        }
+    }, [state]);
+
     return (
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center'>
-            {/* Left Side - Animation */}
-            <div className='hidden lg:flex items-center justify-center order-2 lg:order-1'>
-                <div className='w-full max-w-sm'>
-                    <div className='bg-white/50 dark:bg-slate-700/50 backdrop-blur-xl rounded-3xl shadow-xl p-8 border border-white/20 dark:border-slate-700/20'>
-                        <div className='aspect-square'>
-                            <LottieAnimation
-                                animationPath='/register Animation.json'
-                                loop
-                                autoplay
-                            />
+        <div className='min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-6 bg-gray-50 dark:bg-slate-950'>
+            <div className='w-full max-w-7xl'>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center'>
+                    {/* Left Side - Animation */}
+                    <div className='hidden lg:flex items-center justify-center'>
+                        <div className='w-full max-w-md'>
+                            <div className='bg-white dark:bg-slate-900 rounded-3xl shadow-lg p-6 sm:p-8 md:p-10 border border-gray-200 dark:border-slate-800'>
+                                <div className='w-full h-auto aspect-square'>
+                                    <LottieAnimation
+                                        animationPath='/register Animation.json'
+                                        loop
+                                        autoplay
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Side - Form */}
+                    <div className='w-full'>
+                        <div className='bg-white dark:bg-slate-900 rounded-3xl shadow-lg border border-gray-200 dark:border-slate-800 p-6 sm:p-8 md:p-10'>
+                            {/* Header */}
+                            <div className='mb-6 sm:mb-8'>
+                                <h1 className='text-2xl sm:text-3xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2'>
+                                    Create Account
+                                </h1>
+                                <p className='text-xs sm:text-sm text-gray-600 dark:text-gray-400'>
+                                    Sign up to get started with us
+                                </p>
+                            </div>
+
+                            {/* Form */}
+                            <form
+                                action={formAction}
+                                className='space-y-3 sm:space-y-4'
+                            >
+                                <FieldGroup className='space-y-2 sm:space-y-3'>
+                                    {/* Global Error Message */}
+                                    {state?.message && !state?.success && (
+                                        <div className='p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-200'>
+                                            {state.message}
+                                        </div>
+                                    )}
+
+                                    {/* Success Message */}
+                                    {state?.success && (
+                                        <div className='p-3 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg text-sm text-green-700 dark:text-green-200'>
+                                            {state.message ||
+                                                'Registration successful! Redirecting...'}
+                                        </div>
+                                    )}
+
+                                    {/* Full Name */}
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor='name'
+                                            className='text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 block uppercase tracking-wide'
+                                        >
+                                            Full Name
+                                        </FieldLabel>
+                                        <Input
+                                            id='name'
+                                            name='name'
+                                            type='text'
+                                            placeholder='John Doe'
+                                            disabled={isPending}
+                                            required
+                                            className='h-11 sm:h-12 w-full rounded-lg border border-gray-300 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all bg-white dark:bg-slate-800 px-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed'
+                                        />
+                                        <InputFieldError
+                                            field='name'
+                                            state={state}
+                                        />
+                                    </Field>
+
+                                    {/* Email */}
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor='email'
+                                            className='text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 block uppercase tracking-wide'
+                                        >
+                                            Email Address
+                                        </FieldLabel>
+                                        <Input
+                                            id='email'
+                                            name='email'
+                                            type='email'
+                                            placeholder='you@example.com'
+                                            disabled={isPending}
+                                            required
+                                            className='h-11 sm:h-12 w-full rounded-lg border border-gray-300 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all bg-white dark:bg-slate-800 px-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed'
+                                        />
+                                        <InputFieldError
+                                            field='email'
+                                            state={state}
+                                        />
+                                    </Field>
+
+                                    {/* Password */}
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor='password'
+                                            className='text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 block uppercase tracking-wide'
+                                        >
+                                            Password
+                                        </FieldLabel>
+                                        <div className='relative'>
+                                            <Input
+                                                id='password'
+                                                name='password'
+                                                type={
+                                                    showPassword
+                                                        ? 'text'
+                                                        : 'password'
+                                                }
+                                                placeholder='Enter your password'
+                                                disabled={isPending}
+                                                required
+                                                className='h-11 sm:h-12 w-full rounded-lg border border-gray-300 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all bg-white dark:bg-slate-800 px-3 pr-10 text-sm disabled:opacity-50 disabled:cursor-not-allowed'
+                                            />
+                                            <EyeButton
+                                                isVisible={showPassword}
+                                                onToggle={() =>
+                                                    setShowPassword(
+                                                        !showPassword
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                        <InputFieldError
+                                            field='password'
+                                            state={state}
+                                        />
+                                    </Field>
+
+                                    {/* Confirm Password */}
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor='confirmPassword'
+                                            className='text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2 block uppercase tracking-wide'
+                                        >
+                                            Confirm Password
+                                        </FieldLabel>
+                                        <div className='relative'>
+                                            <Input
+                                                id='confirmPassword'
+                                                name='confirmPassword'
+                                                type={
+                                                    showConfirmPassword
+                                                        ? 'text'
+                                                        : 'password'
+                                                }
+                                                placeholder='Confirm your password'
+                                                disabled={isPending}
+                                                required
+                                                className='h-11 sm:h-12 w-full rounded-lg border border-gray-300 dark:border-slate-700 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all bg-white dark:bg-slate-800 px-3 pr-10 text-sm disabled:opacity-50 disabled:cursor-not-allowed'
+                                            />
+                                            <EyeButton
+                                                isVisible={showConfirmPassword}
+                                                onToggle={() =>
+                                                    setShowConfirmPassword(
+                                                        !showConfirmPassword
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                        <InputFieldError
+                                            field='confirmPassword'
+                                            state={state}
+                                        />
+                                    </Field>
+
+                                    {/* Submit Button */}
+                                    <Button
+                                        type='submit'
+                                        disabled={isPending}
+                                        className='w-full h-11 sm:h-12 rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1 sm:mt-2'
+                                    >
+                                        {isPending ? (
+                                            <span className='flex items-center justify-center gap-2'>
+                                                <svg
+                                                    className='w-4 h-4 animate-spin'
+                                                    fill='none'
+                                                    stroke='currentColor'
+                                                    viewBox='0 0 24 24'
+                                                >
+                                                    <circle
+                                                        cx='12'
+                                                        cy='12'
+                                                        r='10'
+                                                        stroke='currentColor'
+                                                        strokeWidth='2'
+                                                        fill='none'
+                                                        opacity='0.25'
+                                                    ></circle>
+                                                    <path
+                                                        stroke='currentColor'
+                                                        strokeWidth='2'
+                                                        d='M4 12a8 8 0 018-8'
+                                                        strokeLinecap='round'
+                                                    ></path>
+                                                </svg>
+                                                Creating Account...
+                                            </span>
+                                        ) : (
+                                            'Create Account'
+                                        )}
+                                    </Button>
+                                </FieldGroup>
+                            </form>
+
+                            {/* Sign In Link */}
+                            <div className='mt-4 sm:mt-6 text-center'>
+                                <p className='text-xs sm:text-sm text-gray-600 dark:text-gray-400'>
+                                    Already have an account?{' '}
+                                    <Link
+                                        href='/login'
+                                        className='font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors'
+                                    >
+                                        Sign in
+                                    </Link>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* Right Side - Form */}
-            <div className='w-full order-1 lg:order-2'>
-                <form action={formAction} className='space-y-6'>
-                    <FieldGroup className='space-y-6'>
-                        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                            {/* Name */}
-                            <Field>
-                                <FieldLabel
-                                    htmlFor='name'
-                                    className='text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2'
-                                >
-                                    Full Name
-                                </FieldLabel>
-                                <Input
-                                    id='name'
-                                    name='name'
-                                    type='text'
-                                    placeholder='John Doe'
-                                    className='h-12 rounded-xl border-2 border-gray-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50 dark:bg-slate-900 px-4'
-                                />
-                                <InputFieldError field='name' state={state} />
-                            </Field>
-
-                            {/* Address */}
-                            <Field>
-                                <FieldLabel
-                                    htmlFor='address'
-                                    className='text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2'
-                                >
-                                    Address
-                                </FieldLabel>
-                                <Input
-                                    id='address'
-                                    name='address'
-                                    type='text'
-                                    placeholder='123 Main Street'
-                                    className='h-12 rounded-xl border-2 border-gray-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50 dark:bg-slate-900 px-4'
-                                />
-                                <InputFieldError
-                                    field='address'
-                                    state={state}
-                                />
-                            </Field>
-
-                            {/* Email */}
-                            <Field>
-                                <FieldLabel
-                                    htmlFor='email'
-                                    className='text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2'
-                                >
-                                    Email Address
-                                </FieldLabel>
-                                <Input
-                                    id='email'
-                                    name='email'
-                                    type='email'
-                                    placeholder='your@email.com'
-                                    className='h-12 rounded-xl border-2 border-gray-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50 dark:bg-slate-900 px-4'
-                                />
-                                <InputFieldError field='email' state={state} />
-                            </Field>
-
-                            {/* Password */}
-                            <Field>
-                                <FieldLabel
-                                    htmlFor='password'
-                                    className='text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2'
-                                >
-                                    Password
-                                </FieldLabel>
-                                <div className='relative'>
-                                    <Input
-                                        id='password'
-                                        name='password'
-                                        type={
-                                            showPassword ? 'text' : 'password'
-                                        }
-                                        placeholder='••••••••'
-                                        className='h-12 rounded-xl border-2 border-gray-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50 dark:bg-slate-900 px-4 pr-12'
-                                    />
-                                    <EyeButton
-                                        isVisible={showPassword}
-                                        onToggle={() =>
-                                            setShowPassword(!showPassword)
-                                        }
-                                    />
-                                </div>
-                                <InputFieldError
-                                    field='password'
-                                    state={state}
-                                />
-                            </Field>
-
-                            {/* Confirm Password */}
-                            <Field className='md:col-span-2'>
-                                <FieldLabel
-                                    htmlFor='confirmPassword'
-                                    className='text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2'
-                                >
-                                    Confirm Password
-                                </FieldLabel>
-                                <div className='relative'>
-                                    <Input
-                                        id='confirmPassword'
-                                        name='confirmPassword'
-                                        type={
-                                            showConfirmPassword
-                                                ? 'text'
-                                                : 'password'
-                                        }
-                                        placeholder='••••••••'
-                                        className='h-12 rounded-xl border-2 border-gray-200 dark:border-slate-700 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 dark:focus:ring-emerald-500/10 transition-all duration-200 bg-gray-50 dark:bg-slate-900 px-4 pr-12'
-                                    />
-                                    <EyeButton
-                                        isVisible={showConfirmPassword}
-                                        onToggle={() =>
-                                            setShowConfirmPassword(
-                                                !showConfirmPassword
-                                            )
-                                        }
-                                    />
-                                </div>
-                                <InputFieldError
-                                    field='confirmPassword'
-                                    state={state}
-                                />
-                            </Field>
-                        </div>
-
-                        {/* Submit Button */}
-                        <Button
-                            type='submit'
-                            disabled={isPending}
-                            className='w-full h-12 rounded-xl bg-gradient-to-r from-emerald-600 via-cyan-600 to-blue-600 hover:from-emerald-700 hover:via-cyan-700 hover:to-blue-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed md:col-span-2'
-                        >
-                            {isPending ? (
-                                <span className='flex items-center justify-center gap-2'>
-                                    <svg
-                                        className='w-5 h-5 animate-spin'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        viewBox='0 0 24 24'
-                                    >
-                                        <circle
-                                            cx='12'
-                                            cy='12'
-                                            r='10'
-                                            stroke='currentColor'
-                                            strokeWidth='2'
-                                            fill='none'
-                                            opacity='0.3'
-                                        ></circle>
-                                        <path
-                                            stroke='currentColor'
-                                            strokeWidth='2'
-                                            d='M4 12a8 8 0 018-8v0m0 16a8 8 0 01-8-8'
-                                            opacity='0.5'
-                                        ></path>
-                                    </svg>
-                                    Creating Account...
-                                </span>
-                            ) : (
-                                'Create Account'
-                            )}
-                        </Button>
-
-                        {/* Sign In Link */}
-                        <div className='pt-4 text-center border-t border-gray-200 dark:border-slate-700 md:col-span-2'>
-                            <p className='text-gray-600 dark:text-gray-400 text-sm'>
-                                Already have an account?{' '}
-                                <a
-                                    href='/login'
-                                    className='font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors'
-                                >
-                                    Sign in here
-                                </a>
-                            </p>
-                        </div>
-                    </FieldGroup>
-                </form>
-            </div>
         </div>
     );
 };
+
+export default RegisterForm;

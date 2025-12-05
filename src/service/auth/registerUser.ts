@@ -11,65 +11,94 @@ export const registerUser = async (
     formData: any
 ): Promise<any> => {
     try {
-        // console.log(formData.get('address'));
-        const payload = {
-            name: formData.get('name'),
-            address: formData.get('address'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-            confirmPassword: formData.get('confirmPassword'),
-        };
+        // Handle both FormData and plain JSON payload
+        let payload: any;
 
-        if (
-            zodValidator(payload, registerValidationZodSchema).success === false
-        ) {
-            return zodValidator(payload, registerValidationZodSchema);
+        if (formData instanceof FormData) {
+            payload = {
+                name: formData.get('name') as string,
+                email: formData.get('email') as string,
+                password: formData.get('password') as string,
+                confirmPassword: formData.get('confirmPassword') as string,
+            };
+        } else {
+            // Plain JSON payload
+            payload = formData;
         }
 
-        const validatedPayload: any = zodValidator(
+        // Validate with Zod
+        const validationResult = zodValidator(
             payload,
             registerValidationZodSchema
-        ).data;
+        );
 
+        if (!validationResult.success) {
+            console.log('❌ Validation Error:', validationResult.errors);
+            return {
+                success: false,
+                message: 'Validation failed. Please check your inputs.',
+                errors: validationResult.errors,
+            };
+        }
+
+        const validatedPayload: any = validationResult.data;
+        // console.log('✅ Validation Passed:', validatedPayload);
+
+        // Prepare registration data
         const registerData = {
+            name: validatedPayload.name,
+            email: validatedPayload.email,
             password: validatedPayload.password,
-            patient: {
-                name: validatedPayload.name,
-                address: validatedPayload.address,
-                email: validatedPayload.email,
-            },
         };
 
-        const newFormData = new FormData();
+        // console.log('🔄 Sending to Backend:', registerData);
 
-        newFormData.append('data', JSON.stringify(registerData));
-
-        if (formData.get('file')) {
-            newFormData.append('file', formData.get('file') as Blob);
-        }
-
-        const res = await serverFetch.post('/user/create-patient', {
-            body: newFormData,
+        // Call backend API
+        const res = await serverFetch.post('/user/create-user', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registerData),
         });
+
         const result = await res.json();
 
+        console.log('✨ Backend Response:', result);
+
         if (result.success) {
-            await loginUser(_currentState, formData);
+            // Auto login after successful registration
+            const loginPayload = {
+                email: validatedPayload.email,
+                password: validatedPayload.password,
+            };
+
+            await loginUser(_currentState, loginPayload);
+
+            return {
+                success: true,
+                message: 'Registration successful! Logging you in...',
+            };
         }
 
-        return result;
+        return {
+            success: false,
+            message: result.message || 'Registration failed. Please try again.',
+            errors: result.errors || {},
+        };
     } catch (error) {
         if ((error as any)?.digest?.startsWith?.('NEXT_REDIRECT')) {
             throw error;
         }
-        console.log(error);
+
+        console.error('Registration error:', error);
+
         return {
             success: false,
-            message: `${
+            message:
                 process.env.NODE_ENV === 'development'
                     ? (error as Error).message
-                    : 'Registration failed. You might have entered incorrect credentials.'
-            }`,
+                    : 'Registration failed. Please try again later.',
+            errors: {},
         };
     }
 };

@@ -13,6 +13,7 @@ const serverFetchHelper = async (
 
     const response = await fetch(`${BACKEND_URL}${endpoint}`, {
         headers: {
+            // 'Content-Type': 'application/json',
             ...headers,
             // ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
             // ...(accessToken ? { Authorization: ` ${accessToken}` } : {}),

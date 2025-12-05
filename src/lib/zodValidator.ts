@@ -20,3 +20,34 @@ export const zodValidator = <T>(payload: T, schema: ZodObject) => {
         data: validatedPayload.data,
     };
 };
+
+// // lib/zodValidator.ts
+// import { ZodSchema } from 'zod';
+
+// export const zodValidator = <T>(data: T, schema: ZodSchema) => {
+//     const result = schema.safeParse(data);
+
+//     if (!result.success) {
+//         // Convert Zod errors to object format
+//         const errors: Record<string, string> = {};
+
+//         result.error.issues.forEach((issue) => {
+//             const field = issue.path[0];
+//             if (field) {
+//                 errors[field.toString()] = issue.message;
+//             }
+//         });
+
+//         return {
+//             success: false,
+//             errors,
+//             data: null,
+//         };
+//     }
+
+//     return {
+//         success: true,
+//         data: result.data,
+//         errors: {},
+//     };
+// };

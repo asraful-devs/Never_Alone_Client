@@ -1,131 +1,103 @@
-'use client';
+import { Menu } from 'lucide-react';
+import Link from 'next/link';
 
-import { Button } from '@/components/ui/button';
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-} from '@/components/ui/navigation-menu';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-import InfoMenu from '../info-menu';
-import Logo from '../logo';
-import NotificationMenu from '../notification-menu';
-import UserMenu from '../user-menu';
+import { getCookie } from '../../service/auth/tokenHandler';
+import { Button } from '../ui/button';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
+import LogoutButton from './LogoutButton';
+import { ModeToggle } from './ModeToggle';
 
-// Navigation links array to be used in both desktop and mobile menus
-const navigationLinks = [
-    { href: '#', label: 'Home' },
-    { href: '#', label: 'Features' },
-    { href: '#', label: 'Pricing' },
-    { href: '#', label: 'About' },
-];
+const PublicNavbar = async () => {
+    const navItems = [
+        { href: '#', label: 'Consultation' },
+        { href: '#', label: 'Health Plans' },
+        { href: '#', label: 'Medicine' },
+        { href: '#', label: 'Diagnostics' },
+        { href: '#', label: 'NGOs' },
+    ];
 
-export default function PublicNavbar() {
+    const accessToken = await getCookie('accessToken');
+
     return (
-        <header className='border-b px-4 md:px-6'>
-            <div className='flex h-16 items-center justify-between gap-4'>
-                {/* Left side */}
-                <div className='flex items-center gap-2'>
-                    {/* Mobile menu trigger */}
-                    <Popover>
-                        <PopoverTrigger asChild>
-                            <Button
-                                className='group size-8 md:hidden'
-                                size='icon'
-                                variant='ghost'
-                            >
-                                <svg
-                                    className='pointer-events-none'
-                                    fill='none'
-                                    height={16}
-                                    stroke='currentColor'
-                                    strokeLinecap='round'
-                                    strokeLinejoin='round'
-                                    strokeWidth='2'
-                                    viewBox='0 0 24 24'
-                                    width={16}
-                                    xmlns='http://www.w3.org/2000/svg'
-                                >
-                                    <path
-                                        className='-translate-y-[7px] origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-315'
-                                        d='M4 12L20 12'
-                                    />
-                                    <path
-                                        className='origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45'
-                                        d='M4 12H20'
-                                    />
-                                    <path
-                                        className='origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-135'
-                                        d='M4 12H20'
-                                    />
-                                </svg>
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                            align='start'
-                            className='w-36 p-1 md:hidden'
+        <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur  dark:bg-background/95'>
+            <div className='container mx-auto flex h-16 items-center justify-between px-4'>
+                <Link href='/' className='flex items-center space-x-2'>
+                    <span className='text-xl font-bold text-primary'>
+                        Health Care
+                    </span>
+                </Link>
+
+                <nav className='hidden md:flex items-center space-x-6 text-sm font-medium'>
+                    {navItems.map((link) => (
+                        <Link
+                            key={link.label}
+                            href={link.href}
+                            className='text-foreground hover:text-primary transition-colors'
                         >
-                            <NavigationMenu className='max-w-none *:w-full'>
-                                <NavigationMenuList className='flex-col items-start gap-0 md:gap-2'>
-                                    {navigationLinks.map((link, index) => (
-                                        <NavigationMenuItem
-                                            className='w-full'
-                                            key={String(index)}
-                                        >
-                                            <NavigationMenuLink
-                                                className='py-1.5'
-                                                href={link.href}
-                                            >
-                                                {link.label}
-                                            </NavigationMenuLink>
-                                        </NavigationMenuItem>
-                                    ))}
-                                </NavigationMenuList>
-                            </NavigationMenu>
-                        </PopoverContent>
-                    </Popover>
-                    {/* Main nav */}
-                    <div className='flex items-center gap-6'>
-                        <a
-                            className='text-primary hover:text-primary/90'
-                            href='#'
-                        >
-                            <Logo />
-                        </a>
-                        {/* Navigation menu */}
-                        <NavigationMenu className='max-md:hidden'>
-                            <NavigationMenuList className='gap-2'>
-                                {navigationLinks.map((link, index) => (
-                                    <NavigationMenuItem key={String(index)}>
-                                        <NavigationMenuLink
-                                            className='py-1.5 font-medium text-muted-foreground hover:text-primary'
-                                            href={link.href}
-                                        >
-                                            {link.label}
-                                        </NavigationMenuLink>
-                                    </NavigationMenuItem>
-                                ))}
-                            </NavigationMenuList>
-                        </NavigationMenu>
-                    </div>
+                            {link.label}
+                        </Link>
+                    ))}
+                </nav>
+
+                <div className='hidden md:flex items-center space-x-2'>
+                    <ModeToggle />
+                    {accessToken ? (
+                        <LogoutButton />
+                    ) : (
+                        <Link href='/login'>
+                            <Button>Login</Button>
+                        </Link>
+                    )}
                 </div>
-                {/* Right side */}
-                <div className='flex items-center gap-4'>
-                    <div className='flex items-center gap-2'>
-                        {/* Info menu */}
-                        <InfoMenu />
-                        {/* Notification */}
-                        <NotificationMenu />
-                    </div>
-                    {/* User menu */}
-                    <UserMenu />
+
+                {/* Mobile Menu */}
+
+                <div className='md:hidden'>
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button variant='outline'>
+                                {' '}
+                                <Menu />{' '}
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent
+                            side='right'
+                            className='w-[300px] sm:w-[400px] p-4'
+                        >
+                            <SheetTitle className='sr-only'>
+                                Navigation Menu
+                            </SheetTitle>
+                            <nav className='flex flex-col space-y-4 mt-8'>
+                                {navItems.map((link) => (
+                                    <Link
+                                        key={link.label}
+                                        href={link.href}
+                                        className='text-lg font-medium'
+                                    >
+                                        {link.label}
+                                    </Link>
+                                ))}
+                                <div className='border-t pt-4 flex flex-col space-y-4'>
+                                    <div className='flex justify-center'></div>
+                                    <ModeToggle />
+                                    {accessToken ? (
+                                        <LogoutButton />
+                                    ) : (
+                                        <Link
+                                            href='/login'
+                                            className='text-lg font-medium'
+                                        >
+                                            <Button>Login</Button>
+                                        </Link>
+                                    )}
+                                </div>
+                            </nav>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </header>
     );
-}
+};
+
+export default PublicNavbar;
