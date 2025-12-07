@@ -1,7 +1,17 @@
-const LoginPage = () => {
+import LoginForm from '../../../../components/modules/Auth/loginForm';
+
+const LoginPage = async ({
+    searchParams,
+}: {
+    searchParams?: Promise<{ redirect?: string }>;
+}) => {
+    const { redirect } = searchParams ? await searchParams : {};
+
     return (
-        <div>
-            <h1 className=''>Login page</h1>
+        <div className=''>
+            <section className=''>
+                <LoginForm redirect={redirect} />
+            </section>
         </div>
     );
 };
