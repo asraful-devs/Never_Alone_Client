@@ -72,19 +72,19 @@ export const adminNavItems: NavSection[] = [
         items: [
             {
                 title: 'Admins',
-                href: '/admin/dashboard/admins-management',
+                href: '/admin/dashboard/admin-managements',
                 icon: 'Shield', // ✅ String
                 roles: ['ADMIN'],
             },
             {
                 title: 'Hosts',
-                href: '/admin/dashboard/hosts-management',
-                icon: 'Stethoscope', // ✅ String
+                href: '/admin/dashboard/host-managements',
+                icon: 'Hosts', // ✅ String
                 roles: ['ADMIN'],
             },
             {
                 title: 'Users',
-                href: '/admin/dashboard/users-management',
+                href: '/admin/dashboard/user-managements',
                 icon: 'Users', // ✅ String
                 roles: ['ADMIN'],
             },

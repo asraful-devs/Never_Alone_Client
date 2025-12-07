@@ -20,10 +20,20 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
             return null;
         }
 
+        const id =
+            (verifiedToken as JwtPayload).id ??
+            (verifiedToken as JwtPayload)._id;
+        const email = (verifiedToken as JwtPayload).email;
+        const role = (verifiedToken as JwtPayload).role;
+
+        if (!id || !email || !role) {
+            return null;
+        }
+
         const userInfo: UserInfo = {
-            id: verifiedToken.id,
-            email: verifiedToken.email,
-            role: verifiedToken.role,
+            id: String(id),
+            email: String(email),
+            role: role as UserInfo['role'],
         };
 
         return userInfo;

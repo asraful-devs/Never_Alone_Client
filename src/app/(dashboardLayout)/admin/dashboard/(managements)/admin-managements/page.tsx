@@ -1,0 +1,43 @@
+import { queryStringFormatter } from '@/lib/formatters';
+import { Suspense } from 'react';
+import TablePagination from '../../../../../../components/common/TablePagination';
+import { TableSkeleton } from '../../../../../../components/common/TableSkeleton';
+import AdminsFilter from '../../../../../../components/modules/Admin/AdminsManagement/AdminsFilter';
+import AdminsManagementHeader from '../../../../../../components/modules/Admin/AdminsManagement/AdminsManagementHeader';
+import AdminsTable from '../../../../../../components/modules/Admin/AdminsManagement/AdminsTable';
+import { getAdmins } from '../../../../../../service/admin/adminsManagement';
+
+const AdminAdminsManagementPage = async ({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+    const searchParamsObj = await searchParams;
+    const queryString = queryStringFormatter(searchParamsObj);
+    const adminsResult = await getAdmins(queryString);
+
+    // console.log(adminsResult);
+
+    const totalPages = Math.ceil(
+        (adminsResult?.meta?.total || 1) / (adminsResult?.meta?.limit || 1)
+    );
+
+    return (
+        <div className='space-y-6'>
+            <AdminsManagementHeader />
+
+            {/* Search, Filters */}
+            <AdminsFilter />
+
+            <Suspense fallback={<TableSkeleton columns={8} rows={10} />}>
+                <AdminsTable admins={adminsResult?.data || []} />
+                <TablePagination
+                    currentPage={adminsResult?.meta?.page || 1}
+                    totalPages={totalPages || 1}
+                />
+            </Suspense>
+        </div>
+    );
+};
+
+export default AdminAdminsManagementPage;

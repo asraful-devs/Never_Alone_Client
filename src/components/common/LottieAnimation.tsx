@@ -50,7 +50,7 @@ const LottieAnimation = ({
         return (
             <div className={`flex items-center justify-center ${className}`}>
                 <div className='animate-pulse'>
-                    <div className='w-full h-full bg-gradient-to-r from-gray-200 to-gray-300 dark:from-slate-700 dark:to-slate-600 rounded-xl'></div>
+                    <div className='w-full h-full bg-linear-to-r from-gray-200 to-gray-300 dark:from-slate-700 dark:to-slate-600 rounded-xl'></div>
                 </div>
             </div>
         );

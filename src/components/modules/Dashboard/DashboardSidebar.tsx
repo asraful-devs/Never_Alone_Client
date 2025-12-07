@@ -1,15 +1,18 @@
 import { getDefaultDashboardRoute } from '@/lib/auth-utils';
+import { redirect } from 'next/navigation';
 import { getNavItemsByRole } from '../../../lib/navItems.config';
 import { getUserInfo } from '../../../service/auth/getUserInfo';
 import { NavSection } from '../../../types/dashboard.interface';
-import { UserInfo } from '../../../types/user.interface';
 import DashboardSidebarContent from './DashboardSidebarContent';
 
 const DashboardSidebar = async () => {
-    const userInfo = (await getUserInfo()) as UserInfo;
-    console.log(userInfo, 'dashboard sitebar');
+    const userInfo = await getUserInfo();
 
-    const navItems: NavSection[] = await getNavItemsByRole(userInfo.role);
+    if (!userInfo) {
+        redirect('/login');
+    }
+
+    const navItems: NavSection[] = getNavItemsByRole(userInfo.role);
     const dashboardHome = getDefaultDashboardRoute(userInfo.role);
 
     return (
