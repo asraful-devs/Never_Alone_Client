@@ -1,61 +1,24 @@
-'use client';
+'use server';
 
 import { getDefaultDashboardRoute } from '@/lib/auth-utils';
+import { redirect } from 'next/navigation';
 import { getNavItemsByRole } from '../../../lib/navItems.config';
+import { getUserInfo } from '../../../service/auth/getUserInfo';
 import { NavSection } from '../../../types/dashboard.interface';
-import { useAuth } from '../../auth/AuthProvider';
+import { UserInfo } from '../../../types/user.interface';
 import DashboardSidebarContent from './DashboardSidebarContent';
 
-const DashboardSidebar = () => {
-    const { userInfo, loading, error } = useAuth();
+const DashboardSidebar = async () => {
+    const userInfo = (await getUserInfo()) as UserInfo;
+    console.log(userInfo, 'dashboard sidebar');
 
-    console.log(
-        '🔍 DashboardSidebar: userInfo =',
-        userInfo,
-        'loading =',
-        loading,
-        'error =',
-        error
-    );
-
-    if (loading) {
-        return (
-            <div className='w-64 bg-background border-r animate-pulse'>
-                <div className='h-16 border-b bg-muted' />
-                <div className='space-y-4 p-4'>
-                    {[...Array(5)].map((_, i) => (
-                        <div key={i} className='h-10 bg-muted rounded' />
-                    ))}
-                </div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className='w-64 bg-background border-r flex items-center justify-center'>
-                <div className='text-center text-red-500'>
-                    <p className='font-semibold'>Error loading sidebar</p>
-                    <p className='text-xs'>{error}</p>
-                </div>
-            </div>
-        );
-    }
-
+    // 🔥 যদি userInfo null হয়, redirect করুন
     if (!userInfo) {
-        return (
-            <div className='w-64 bg-background border-r flex items-center justify-center'>
-                <div className='text-center text-muted-foreground'>
-                    <p className='text-sm'>No user information available</p>
-                </div>
-            </div>
-        );
+        redirect('/login');
     }
 
-    const navItems: NavSection[] = getNavItemsByRole(userInfo.role);
+    const navItems: NavSection[] = await getNavItemsByRole(userInfo.role);
     const dashboardHome = getDefaultDashboardRoute(userInfo.role);
-
-    console.log('✅ DashboardSidebar: Rendering with navItems =', navItems);
 
     return (
         <DashboardSidebarContent

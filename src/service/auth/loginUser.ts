@@ -107,7 +107,8 @@ export const loginUser = async (
         await setCookie('accessToken', accessTokenObject.accessToken, {
             secure: isProd,
             httpOnly: true,
-            maxAge: parseInt(accessTokenObject['Max-Age']) || 60 * 60, // 1 hour fallback
+            maxAge:
+                parseInt(accessTokenObject['Max-Age']) || 1000 * 60 * 60 * 24, // 1 day fallback
             path: '/',
             sameSite: 'lax',
         });
@@ -116,7 +117,8 @@ export const loginUser = async (
             secure: isProd,
             httpOnly: true,
             maxAge:
-                parseInt(refreshTokenObject['Max-Age']) || 60 * 60 * 24 * 90, // 90 days fallback
+                parseInt(refreshTokenObject['Max-Age']) ||
+                1000 * 60 * 60 * 24 * 30, // 30 days fallback
             path: '/',
             sameSite: 'lax',
         });
@@ -125,6 +127,10 @@ export const loginUser = async (
             accessTokenObject.accessToken,
             process.env.JWT_ACCESS_SECRET as string
         );
+
+        // এই line টা add করুন
+        console.log('Decoded Token:', verifiedToken);
+
         if (typeof verifiedToken === 'string') {
             throw new Error('Invalid token');
         }

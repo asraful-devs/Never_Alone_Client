@@ -89,21 +89,20 @@ const DashboardSidebarContent = ({
                     ))}
                 </nav>
             </ScrollArea>
-
             {/* User Info at Bottom */}
             <div className='border-t p-4'>
                 <div className='flex items-center gap-3'>
                     <div className='h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center'>
                         <span className='text-sm font-semibold text-primary'>
-                            {userInfo.id}
+                            {userInfo?.id?.[0]?.toUpperCase() || 'U'}
                         </span>
                     </div>
                     <div className='flex-1 overflow-hidden'>
                         <p className='text-sm font-medium truncate'>
-                            {userInfo.id}
+                            {userInfo?.id || 'Guest User'}
                         </p>
                         <p className='text-xs text-muted-foreground capitalize'>
-                            {userInfo.role.toLowerCase()}
+                            {userInfo?.role?.toLowerCase() || 'user'}
                         </p>
                     </div>
                 </div>

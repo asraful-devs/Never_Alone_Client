@@ -16,18 +16,26 @@ import { UserInfo } from '../../../types/user.interface';
 import LogoutButton from '../../common/LogoutButton';
 
 interface UserDropdownProps {
-    userInfo: UserInfo;
+    userInfo: UserInfo | null; // ✅ null support
 }
 
 const UserDropdown = ({ userInfo }: UserDropdownProps) => {
     const handleLogout = async () => {
         await logoutUser();
     };
+
+    // 🔥 যদি userInfo না থাকে
+    if (!userInfo) {
+        return null;
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant='outline' size='icon' className='rounded-full'>
-                    <span className='text-sm font-semibold'>{userInfo.id}</span>
+                    <span className='text-sm font-semibold'>
+                        {userInfo.id?.[0]?.toUpperCase() || 'U'}
+                    </span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end' className='w-56'>

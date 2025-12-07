@@ -3,7 +3,9 @@
 import { NavSection } from '@/types/dashboard.interface';
 import { getDefaultDashboardRoute, UserRole } from './auth-utils';
 
-export const getCommonNavItems = (role: UserRole): NavSection[] => {
+export const getCommonNavItems = async (
+    role: UserRole
+): Promise<NavSection[]> => {
     const defaultDashboard = getDefaultDashboardRoute(role);
 
     return [
@@ -103,8 +105,10 @@ export const adminNavItems: NavSection[] = [
     },
 ];
 
-export const getNavItemsByRole = (role: UserRole): NavSection[] => {
-    const commonNavItems = getCommonNavItems(role);
+export const getNavItemsByRole = async (
+    role: UserRole
+): Promise<NavSection[]> => {
+    const commonNavItems = await getCommonNavItems(role);
 
     switch (role) {
         case 'ADMIN':
