@@ -1,8 +1,8 @@
 'use client';
-import { useDebounce } from '@/hooks/useDebounce';
 import { Search } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState, useTransition } from 'react';
+import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
 interface SearchFilterProps {
@@ -18,30 +18,32 @@ const SearchFilter = ({
     const [isPending, startTransition] = useTransition();
     const searchParams = useSearchParams();
     const urlValue = searchParams.get(paramName) || '';
-    const [value, setValue] = useState('');
-    const isInitialized = useRef(false);
-    const debouncedValue = useDebounce(value, 500);
+    const [value, setValue] = useState(urlValue);
+    const prevUrlValueRef = useRef(urlValue);
 
-    // Initialize value from URL on mount
+    // Sync input with URL only when URL changes externally (e.g., Clear Filters)
     useEffect(() => {
-        if (!isInitialized.current) {
+        // Only update if URL changed AND it's different from current input
+        if (urlValue !== prevUrlValueRef.current) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
             setValue(urlValue);
-            isInitialized.current = true;
+            prevUrlValueRef.current = urlValue;
         }
     }, [urlValue]);
 
-    // Update URL when debounced value changes
-    useEffect(() => {
-        // Only update if debounced value is different from URL param
-        if (debouncedValue === urlValue) {
+    // Manual search function
+    const handleSearch = () => {
+        const trimmedValue = value.trim();
+
+        // Skip if no change
+        if (trimmedValue === urlValue) {
             return;
         }
 
         const params = new URLSearchParams(searchParams.toString());
 
-        if (debouncedValue) {
-            params.set(paramName, debouncedValue);
+        if (trimmedValue) {
+            params.set(paramName, trimmedValue);
             params.set('page', '1');
         } else {
             params.delete(paramName);
@@ -50,19 +52,39 @@ const SearchFilter = ({
 
         startTransition(() => {
             router.push(`?${params.toString()}`);
+            prevUrlValueRef.current = trimmedValue;
         });
-    }, [debouncedValue, urlValue, paramName, router, searchParams]);
+    };
+
+    // Handle Enter key press
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
 
     return (
-        <div className='relative'>
-            <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
-            <Input
-                placeholder={placeholder}
-                className='pl-10'
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                disabled={isPending}
-            />
+        <div className='relative flex items-center gap-2 w-full'>
+            <div className='relative flex-1'>
+                <Search className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
+                <Input
+                    placeholder={placeholder}
+                    className='pl-10'
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    disabled={isPending}
+                />
+            </div>
+            <Button
+                onClick={handleSearch}
+                disabled={isPending || value.trim() === urlValue}
+                size='default'
+                className='whitespace-nowrap'
+            >
+                <Search className='h-4 w-4 mr-2' />
+                Search
+            </Button>
         </div>
     );
 };

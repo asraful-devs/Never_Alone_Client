@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -34,7 +35,10 @@ const AdminFormDialog = ({
     const formRef = useRef<HTMLFormElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const isEdit = !!admin?.id;
-    //   const { isEditMode, state, formAction, isPending } = useAdminForm(admin);
+
+    // Track previous state to prevent infinite loop
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const prevStateRef = useRef<any>(null);
 
     const [state, formAction, isPending] = useActionState(
         isEdit ? updateAdmin.bind(null, admin?.id as string) : createAdmin,
@@ -49,16 +53,33 @@ const AdminFormDialog = ({
         setSelectedFile(file || null);
     };
 
-    // Handle success/error from server
+    // Handle success/error from server - FIXED VERSION
     useEffect(() => {
+        // Skip if state is null or same as previous
+        if (!state || state === prevStateRef.current) {
+            return;
+        }
+
+        // Update previous state reference
+        prevStateRef.current = state;
+
+        // Handle success case
         if (state?.success) {
             toast.success(state.message || 'Operation successful');
+
+            // Reset form
             if (formRef.current) {
                 formRef.current.reset();
             }
+
+            setSelectedFile(null);
+
+            // Call callbacks
             onSuccess();
             onClose();
-        } else if (state?.message && !state.success) {
+        }
+        // Handle error case
+        else if (state?.message && state.success === false) {
             toast.error(state.message);
 
             // Restore file to input after error
@@ -68,11 +89,19 @@ const AdminFormDialog = ({
                 fileInputRef.current.files = dataTransfer.files;
             }
         }
-    }, [state, onSuccess, onClose, selectedFile]);
+    }, [state]); // Only depend on state, but use ref to prevent loops
+
+    // Reset previous state when dialog closes
+    useEffect(() => {
+        if (!open) {
+            prevStateRef.current = null;
+        }
+    }, [open]);
 
     const handleClose = () => {
         setSelectedFile(null);
         formRef.current?.reset();
+        prevStateRef.current = null; // Reset ref on manual close
         onClose();
     };
 
@@ -91,7 +120,7 @@ const AdminFormDialog = ({
                     className='flex flex-col flex-1 min-h-0'
                 >
                     <div className='flex-1 overflow-y-auto px-6 space-y-4 pb-4'>
-                        {/* Create Mode Fields: Name -> Email -> Password -> Confirm Password */}
+                        {/* Create Mode Fields */}
                         {!isEdit && (
                             <>
                                 {/* Name Field */}
@@ -202,7 +231,7 @@ const AdminFormDialog = ({
                             </>
                         )}
 
-                        {/* Edit Mode Fields: Name -> Email (disabled) -> Contact Number -> Profile Photo */}
+                        {/* Edit Mode Fields */}
                         {isEdit && (
                             <>
                                 {/* Name Field */}
@@ -274,7 +303,7 @@ const AdminFormDialog = ({
                                                 alt='Profile Photo Preview'
                                                 width={50}
                                                 height={50}
-                                                className='rounded-full'
+                                                className='rounded-full object-cover'
                                             />
                                         </div>
                                     )}
@@ -285,7 +314,7 @@ const AdminFormDialog = ({
                                                 alt='Current Profile Photo'
                                                 width={50}
                                                 height={50}
-                                                className='rounded-full'
+                                                className='rounded-full object-cover'
                                             />
                                         </div>
                                     )}

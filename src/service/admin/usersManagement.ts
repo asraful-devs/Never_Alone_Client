@@ -3,9 +3,9 @@
 
 import { zodValidator } from '@/lib/zodValidator';
 import { serverFetch } from '../../lib/serverFetchHelper';
-import { AdminValidation } from '../../zod/admin.validation';
+import { UserValidation } from '../../zod/user.validation';
 
-export async function createAdmin(_prevState: any, formData: FormData) {
+export async function createUser(_prevState: any, formData: FormData) {
     const validationPayload = {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
@@ -15,7 +15,7 @@ export async function createAdmin(_prevState: any, formData: FormData) {
 
     const validatedPayload = zodValidator(
         validationPayload,
-        AdminValidation.createAdminValidationSchema
+        UserValidation.createUserValidationSchema
     );
 
     if (!validatedPayload.success && validatedPayload.errors) {
@@ -43,7 +43,7 @@ export async function createAdmin(_prevState: any, formData: FormData) {
     };
 
     try {
-        const response = await serverFetch.post('/admin/create-admin', {
+        const response = await serverFetch.post('/user/create-user', {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(backendPayload),
         });
@@ -51,26 +51,26 @@ export async function createAdmin(_prevState: any, formData: FormData) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.error('Create admin error:', error);
+        console.error('Create user error:', error);
         return {
             success: false,
             message:
                 process.env.NODE_ENV === 'development'
                     ? error.message
-                    : 'Failed to create admin',
+                    : 'Failed to create user',
             formData: validationPayload,
         };
     }
 }
 
 /**
- * GET ALL ADMINS
- * API: GET /admin?queryParams
+ * GET ALL USERS
+ * API: GET /user/all-users?queryParams
  */
-export async function getAdmins(queryString?: string) {
+export async function getUsers(queryString?: string) {
     try {
         const response = await serverFetch.get(
-            `/admin/get-all-admin${queryString ? `?${queryString}` : ''}`
+            `/user/all-users${queryString ? `?${queryString}` : ''}`
         );
         const result = await response.json();
         return result;
@@ -88,12 +88,12 @@ export async function getAdmins(queryString?: string) {
 }
 
 /**
- * GET ADMIN BY ID
- * API: GET /admin/:id
+ * GET USER BY ID
+ * API: GET /user/get-single-user/:id
  */
-export async function getAdminById(id: string) {
+export async function getUserById(id: string) {
     try {
-        const response = await serverFetch.get(`/admin/get-single-admin/${id}`);
+        const response = await serverFetch.get(`/user/get-single-user/${id}`);
         const result = await response.json();
         return result;
     } catch (error: any) {
@@ -110,10 +110,10 @@ export async function getAdminById(id: string) {
 }
 
 /**
- * UPDATE ADMIN
- * API: PATCH /admin/:id
+ * UPDATE USER
+ * API: PATCH /user/update-user/:id
  */
-export async function updateAdmin(
+export async function updateUser(
     id: string,
     _prevState: any,
     formData: FormData
@@ -129,7 +129,7 @@ export async function updateAdmin(
 
     const validation = zodValidator(
         validationPayload,
-        AdminValidation.updateAdminValidationSchema
+        UserValidation.updateUserValidationSchema
     );
 
     console.log(validation);
@@ -196,7 +196,7 @@ export async function updateAdmin(
             );
         }
 
-        const response = await serverFetch.patch(`/admin/update-admin/${id}`, {
+        const response = await serverFetch.patch(`/user/update-user/${id}`, {
             body: updateFormData,
         });
 
@@ -217,7 +217,7 @@ export async function updateAdmin(
         if (!responseText) {
             result = {
                 success: true,
-                message: 'Admin updated successfully',
+                message: 'User updated successfully',
                 formData: {
                     name,
                     contactNumber,
@@ -230,19 +230,19 @@ export async function updateAdmin(
 
         // ⚠️ IMPORTANT: revalidatePath বা redirect কল করবেন না
         // এটা auto-reload ঘটায়
-        // যদি এখানে revalidatePath('/admins') বা redirect() থাকে,
+        // যদি এখানে revalidatePath('/users') বা redirect() থাকে,
         // তাহলে সেটা remove করুন
 
         // শুধু result return করুন
         return result;
     } catch (error: any) {
-        console.error('Update admin error:', error);
+        console.error('Update user error:', error);
         return {
             success: false,
             message:
                 process.env.NODE_ENV === 'development'
                     ? error.message
-                    : 'Failed to update admin',
+                    : 'Failed to update user',
             formData: {
                 name,
                 contactNumber,
@@ -252,13 +252,13 @@ export async function updateAdmin(
 }
 
 /**
- * SOFT DELETE ADMIN
- * API: DELETE /admin/soft/:id
+ * SOFT DELETE USER
+ * API: DELETE /user/soft-delete-user/:id
  */
-export async function softDeleteAdmin(id: string) {
+export async function softDeleteUser(id: string) {
     try {
         const response = await serverFetch.delete(
-            `/admin/soft-delete-admin/${id}`
+            `/user/soft-delete-user/${id}`
         );
         const result = await response.json();
         return result;
@@ -276,12 +276,12 @@ export async function softDeleteAdmin(id: string) {
 }
 
 /**
- * HARD DELETE ADMIN
- * API: DELETE /admin/:id
+ * HARD DELETE USER
+ * API: DELETE /user/:id
  */
-export async function deleteAdmin(id: string) {
+export async function deleteUser(id: string) {
     try {
-        const response = await serverFetch.delete(`/admin/${id}`);
+        const response = await serverFetch.delete(`/user/${id}`);
         const result = await response.json();
         return result;
     } catch (error: any) {

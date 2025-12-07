@@ -10,15 +10,13 @@ const AdminsManagementHeader = () => {
     const router = useRouter();
     const [, startTransition] = useTransition();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [dialogKey, setDialogKey] = useState(0);
 
     const handleSuccess = () => {
         startTransition(() => {
             router.refresh();
         });
     };
-
-    //force remount to reset state of form
-    const [dialogKey, setDialogKey] = useState(0);
 
     const handleOpenDialog = () => {
         setDialogKey((prev) => prev + 1); // Force remount
@@ -31,12 +29,14 @@ const AdminsManagementHeader = () => {
 
     return (
         <>
-            <AdminFormDialog
-                key={dialogKey}
-                open={isDialogOpen}
-                onClose={handleCloseDialog}
-                onSuccess={handleSuccess}
-            />
+            {isDialogOpen && (
+                <AdminFormDialog
+                    key={dialogKey}
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    onSuccess={handleSuccess}
+                />
+            )}
 
             <ManagementPageHeader
                 title='Admins Management'
