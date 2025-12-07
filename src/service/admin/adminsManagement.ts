@@ -2,7 +2,6 @@
 'use server';
 
 import { zodValidator } from '@/lib/zodValidator';
-
 import { serverFetch } from '../../lib/serverFetchHelper';
 import { AdminValidation } from '../../zod/admin.validation';
 
@@ -179,7 +178,6 @@ export async function updateAdmin(
 
         const updateFormData = new FormData();
 
-        // সব data একসাথে 'data' field এ পাঠান (backend এর মতো)
         const dataObject: any = {};
         if (validation.data?.name) dataObject.name = validation.data.name;
         if (validation.data?.contactNumber)
@@ -187,9 +185,8 @@ export async function updateAdmin(
 
         updateFormData.append('data', JSON.stringify(dataObject));
 
-        // File আলাদাভাবে 'file' field এ পাঠান
         if (file && file.size > 0) {
-            updateFormData.append('file', file); // ← গুরুত্বপূর্ণ: 'file' ব্যবহার করুন
+            updateFormData.append('file', file);
         }
 
         // Log FormData contents for debugging

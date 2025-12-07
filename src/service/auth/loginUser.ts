@@ -102,22 +102,23 @@ export const loginUser = async (
         if (!refreshTokenObject) {
             throw new Error('Tokens not found in cookies');
         }
+        const isProd = process.env.NODE_ENV === 'production';
+
         await setCookie('accessToken', accessTokenObject.accessToken, {
-            secure: true,
+            secure: isProd,
             httpOnly: true,
-            maxAge: parseInt(accessTokenObject['Max-Age']) || 1000 * 60 * 60,
-            path: accessTokenObject.Path || '/',
-            sameSite: accessTokenObject['SameSite'] || 'none',
+            maxAge: parseInt(accessTokenObject['Max-Age']) || 60 * 60, // 1 hour fallback
+            path: '/',
+            sameSite: 'lax',
         });
 
         await setCookie('refreshToken', refreshTokenObject.refreshToken, {
-            secure: true,
+            secure: isProd,
             httpOnly: true,
             maxAge:
-                parseInt(refreshTokenObject['Max-Age']) ||
-                1000 * 60 * 60 * 24 * 90,
-            path: refreshTokenObject.Path || '/',
-            sameSite: refreshTokenObject['SameSite'] || 'none',
+                parseInt(refreshTokenObject['Max-Age']) || 60 * 60 * 24 * 90, // 90 days fallback
+            path: '/',
+            sameSite: 'lax',
         });
 
         const verifiedToken: JwtPayload | string = jwt.verify(

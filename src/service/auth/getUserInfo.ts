@@ -8,6 +8,7 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
     try {
         const accessToken = await getCookie('accessToken');
         if (!accessToken) {
+            console.warn('getUserInfo: accessToken cookie not found');
             return null;
         }
 
@@ -17,6 +18,7 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
         ) as JwtPayload;
 
         if (!verifiedToken) {
+            console.warn('getUserInfo: jwt.verify returned falsy');
             return null;
         }
 
@@ -27,6 +29,7 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
         const role = (verifiedToken as JwtPayload).role;
 
         if (!id || !email || !role) {
+            console.warn('getUserInfo: token missing required claims');
             return null;
         }
 
@@ -40,7 +43,7 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-        console.log(error);
+        console.error('getUserInfo: error verifying token', error);
         return null;
     }
 };
