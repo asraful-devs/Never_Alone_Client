@@ -19,13 +19,33 @@ export const usersColumns: Column<IUser>[] = [
         sortKey: 'name',
     },
     {
-        header: 'Contact',
+        header: 'Age',
         accessor: (user) => (
             <div className='flex flex-col'>
-                <span className='text-sm'>{user.contactNumber}</span>
+                <span className='text-sm'>
+                    {user.age ? `${user.age} years` : 'N/A'}
+                </span>
             </div>
         ),
     },
+    {
+        header: 'Contact',
+        accessor: (user) => (
+            <div className='flex flex-col'>
+                <span className='text-sm'>{user.contactNumber || 'N/A'}</span>
+            </div>
+        ),
+    },
+    // {
+    //     header: 'Address',
+    //     accessor: (user) => (
+    //         <div className='flex flex-col'>
+    //             <span className='text-sm line-clamp-2'>
+    //                 {user.address || 'N/A'}
+    //             </span>
+    //         </div>
+    //     ),
+    // },
     {
         header: 'Status',
         accessor: (user) => <StatusBadgeCell isDeleted={user.isDeleted} />,

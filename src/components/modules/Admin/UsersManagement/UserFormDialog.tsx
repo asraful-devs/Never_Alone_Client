@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import Image from 'next/image';
 import { useActionState, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
@@ -36,7 +37,6 @@ const UserFormDialog = ({
     const fileInputRef = useRef<HTMLInputElement>(null);
     const isEdit = !!user?.id;
 
-    // Track previous state to prevent infinite loop
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const prevStateRef = useRef<any>(null);
 
@@ -53,45 +53,34 @@ const UserFormDialog = ({
         setSelectedFile(file || null);
     };
 
-    // Handle success/error from server - FIXED VERSION
     useEffect(() => {
-        // Skip if state is null or same as previous
         if (!state || state === prevStateRef.current) {
             return;
         }
 
-        // Update previous state reference
         prevStateRef.current = state;
 
-        // Handle success case
         if (state?.success) {
             toast.success(state.message || 'Operation successful');
 
-            // Reset form
             if (formRef.current) {
                 formRef.current.reset();
             }
 
             setSelectedFile(null);
-
-            // Call callbacks
             onSuccess();
             onClose();
-        }
-        // Handle error case
-        else if (state?.message && state.success === false) {
+        } else if (state?.message && state.success === false) {
             toast.error(state.message);
 
-            // Restore file to input after error
             if (selectedFile && fileInputRef.current) {
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(selectedFile);
                 fileInputRef.current.files = dataTransfer.files;
             }
         }
-    }, [state]); // Only depend on state, but use ref to prevent loops
+    }, [state]);
 
-    // Reset previous state when dialog closes
     useEffect(() => {
         if (!open) {
             prevStateRef.current = null;
@@ -101,7 +90,7 @@ const UserFormDialog = ({
     const handleClose = () => {
         setSelectedFile(null);
         formRef.current?.reset();
-        prevStateRef.current = null; // Reset ref on manual close
+        prevStateRef.current = null;
         onClose();
     };
 
@@ -120,7 +109,7 @@ const UserFormDialog = ({
                     className='flex flex-col flex-1 min-h-0'
                 >
                     <div className='flex-1 overflow-y-auto px-6 space-y-4 pb-4'>
-                        {/* Create Mode Fields */}
+                        {/* CREATE MODE FIELDS */}
                         {!isEdit && (
                             <>
                                 {/* Name Field */}
@@ -231,7 +220,7 @@ const UserFormDialog = ({
                             </>
                         )}
 
-                        {/* Edit Mode Fields */}
+                        {/* EDIT MODE FIELDS */}
                         {isEdit && (
                             <>
                                 {/* Name Field */}
@@ -253,18 +242,45 @@ const UserFormDialog = ({
                                     />
                                 </Field>
 
-                                {/* Email Field (Read-only) */}
+                                {/* Age Field */}
                                 <Field>
-                                    <FieldLabel htmlFor='email'>
-                                        Email
-                                    </FieldLabel>
+                                    <FieldLabel htmlFor='age'>Age</FieldLabel>
                                     <Input
-                                        id='email'
-                                        name='email'
-                                        type='email'
-                                        placeholder='user@example.com'
-                                        defaultValue={user?.email || ''}
-                                        disabled={true}
+                                        id='age'
+                                        name='age'
+                                        type='number'
+                                        placeholder='25'
+                                        defaultValue={
+                                            state?.formData?.age ||
+                                            user?.age ||
+                                            ''
+                                        }
+                                    />
+                                    <InputFieldError
+                                        field='age'
+                                        state={state}
+                                    />
+                                </Field>
+
+                                {/* Address Field */}
+                                <Field>
+                                    <FieldLabel htmlFor='address'>
+                                        Address
+                                    </FieldLabel>
+                                    <Textarea
+                                        id='address'
+                                        name='address'
+                                        placeholder='Enter full address'
+                                        rows={3}
+                                        defaultValue={
+                                            state?.formData?.address ||
+                                            user?.address ||
+                                            ''
+                                        }
+                                    />
+                                    <InputFieldError
+                                        field='address'
+                                        state={state}
                                     />
                                 </Field>
 
@@ -301,9 +317,9 @@ const UserFormDialog = ({
                                                     selectedFile
                                                 )}
                                                 alt='Profile Photo Preview'
-                                                width={50}
-                                                height={50}
-                                                className='rounded-full object-cover'
+                                                width={80}
+                                                height={80}
+                                                className='rounded-full object-cover border-2 border-gray-200'
                                             />
                                         </div>
                                     )}
@@ -312,9 +328,9 @@ const UserFormDialog = ({
                                             <Image
                                                 src={user.profilePhoto}
                                                 alt='Current Profile Photo'
-                                                width={50}
-                                                height={50}
-                                                className='rounded-full object-cover'
+                                                width={80}
+                                                height={80}
+                                                className='rounded-full object-cover border-2 border-gray-200'
                                             />
                                         </div>
                                     )}
@@ -328,7 +344,7 @@ const UserFormDialog = ({
                                         onChange={handleFileChange}
                                     />
                                     <p className='text-xs text-gray-500 mt-1'>
-                                        Upload a profile photo for the admin
+                                        Upload a profile photo (optional)
                                     </p>
                                     <InputFieldError
                                         field='profilePhoto'

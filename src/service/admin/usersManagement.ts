@@ -120,12 +120,19 @@ export async function updateUser(
 ) {
     const name = formData.get('name') as string;
     const contactNumber = formData.get('contactNumber') as string;
+    const age = Number(formData.get('age'));
+    const address = formData.get('address') as string;
     const file = formData.get('file') as File | null;
+
+    console.log(typeof age);
+    console.log(age);
 
     const validationPayload: any = {};
 
     if (name) validationPayload.name = name;
     if (contactNumber) validationPayload.contactNumber = contactNumber;
+    if (age) validationPayload.age = age;
+    if (address) validationPayload.address = address;
 
     const validation = zodValidator(
         validationPayload,
@@ -141,6 +148,8 @@ export async function updateUser(
             formData: {
                 name,
                 contactNumber,
+                age,
+                address,
             },
             errors: validation.errors,
         };
@@ -153,6 +162,8 @@ export async function updateUser(
             formData: {
                 name,
                 contactNumber,
+                age,
+                address,
             },
         };
     }
@@ -162,6 +173,8 @@ export async function updateUser(
         if (
             !validation.data?.name &&
             !validation.data?.contactNumber &&
+            !validation.data?.age &&
+            !validation.data?.address &&
             (!file || file.size === 0)
         ) {
             return {
@@ -170,6 +183,8 @@ export async function updateUser(
                 formData: {
                     name,
                     contactNumber,
+                    age,
+                    address,
                 },
             };
         }
@@ -180,6 +195,10 @@ export async function updateUser(
         if (validation.data?.name) dataObject.name = validation.data.name;
         if (validation.data?.contactNumber)
             dataObject.contactNumber = validation.data.contactNumber;
+
+        if (validation.data?.age) dataObject.age = validation.data.age;
+        if (validation.data?.address)
+            dataObject.address = validation.data.address;
 
         updateFormData.append('data', JSON.stringify(dataObject));
 
@@ -207,6 +226,8 @@ export async function updateUser(
                 formData: {
                     name,
                     contactNumber,
+                    age,
+                    address,
                 },
             };
         }
@@ -221,6 +242,8 @@ export async function updateUser(
                 formData: {
                     name,
                     contactNumber,
+                    age,
+                    address,
                 },
             };
         } else {

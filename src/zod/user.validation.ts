@@ -16,16 +16,13 @@ const createUserValidationSchema = z
         message: 'Passwords do not match',
     });
 
+// Update User Validation
 const updateUserValidationSchema = z.object({
-    name: z
-        .string()
-        .min(1, 'Name cannot be empty')
-        .max(100, 'Name must be less than 100 characters')
-        .optional(),
-    contactNumber: z
-        .string()
-        .regex(/^[0-9+\-\s()]*$/, 'Invalid phone number format')
-        .optional(),
+    name: z.string().optional(),
+    age: z.number().optional(),
+    address: z.string().optional(),
+    contactNumber: z.string().optional(),
+    profilePhoto: z.string().url('Invalid URL').optional(),
 });
 
 export const UserValidation = {
