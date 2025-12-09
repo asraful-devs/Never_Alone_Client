@@ -1,11 +1,11 @@
 import { queryStringFormatter } from '@/lib/formatters';
 import { Suspense } from 'react';
-import TablePagination from '../../../../../../components/common/TablePagination';
-import { TableSkeleton } from '../../../../../../components/common/TableSkeleton';
-import UsersFilter from '../../../../../../components/modules/Admin/UsersManagement/UsersFilter';
-import UsersManagementHeader from '../../../../../../components/modules/Admin/UsersManagement/UsersManagementHeader';
-import UsersTable from '../../../../../../components/modules/Admin/UsersManagement/UsersTable';
-import { getUsers } from '../../../../../../service/admin/usersManagement';
+import TablePagination from '../../../../../components/common/TablePagination';
+import { TableSkeleton } from '../../../../../components/common/TableSkeleton';
+import UsersFilter from '../../../../../components/modules/Admin/UsersManagement/UsersFilter';
+import UsersManagementHeader from '../../../../../components/modules/Admin/UsersManagement/UsersManagementHeader';
+import UsersTable from '../../../../../components/modules/Admin/UsersManagement/UsersTable';
+import { getUsers } from '../../../../../service/admin/usersManagement';
 
 const AdminUsersManagementPage = async ({
     searchParams,

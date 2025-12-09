@@ -1,11 +1,11 @@
 import { queryStringFormatter } from '@/lib/formatters';
 import { Suspense } from 'react';
-import TablePagination from '../../../../../../components/common/TablePagination';
-import { TableSkeleton } from '../../../../../../components/common/TableSkeleton';
-import HostsFilter from '../../../../../../components/modules/Admin/HostsManagement/HostsFilter';
-import HostsManagementHeader from '../../../../../../components/modules/Admin/HostsManagement/HostsManagementHeader';
-import HostsTable from '../../../../../../components/modules/Admin/HostsManagement/HostsTable';
-import { getHosts } from '../../../../../../service/admin/hostsManagement';
+import TablePagination from '../../../../../components/common/TablePagination';
+import { TableSkeleton } from '../../../../../components/common/TableSkeleton';
+import HostsFilter from '../../../../../components/modules/Admin/HostsManagement/HostsFilter';
+import HostsManagementHeader from '../../../../../components/modules/Admin/HostsManagement/HostsManagementHeader';
+import HostsTable from '../../../../../components/modules/Admin/HostsManagement/HostsTable';
+import { getHosts } from '../../../../../service/admin/hostsManagement';
 
 const AdminHostsManagementPage = async ({
     searchParams,
