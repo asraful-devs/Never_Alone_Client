@@ -1,11 +1,11 @@
 import { queryStringFormatter } from '@/lib/formatters';
 import { Suspense } from 'react';
-import TablePagination from '../../../../../../components/common/TablePagination';
-import { TableSkeleton } from '../../../../../../components/common/TableSkeleton';
-import AdminsFilter from '../../../../../../components/modules/Admin/AdminsManagement/AdminsFilter';
-import AdminsManagementHeader from '../../../../../../components/modules/Admin/AdminsManagement/AdminsManagementHeader';
-import AdminsTable from '../../../../../../components/modules/Admin/AdminsManagement/AdminsTable';
-import { getAdmins } from '../../../../../../service/admin/adminsManagement';
+import TablePagination from '../../../../../components/common/TablePagination';
+import { TableSkeleton } from '../../../../../components/common/TableSkeleton';
+import AdminsFilter from '../../../../../components/modules/Admin/AdminsManagement/AdminsFilter';
+import AdminsManagementHeader from '../../../../../components/modules/Admin/AdminsManagement/AdminsManagementHeader';
+import AdminsTable from '../../../../../components/modules/Admin/AdminsManagement/AdminsTable';
+import { getAdmins } from '../../../../../service/admin/adminsManagement';
 
 const AdminAdminsManagementPage = async ({
     searchParams,

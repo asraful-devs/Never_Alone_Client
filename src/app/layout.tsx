@@ -34,9 +34,7 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <main className='max-w-7xl mx-auto px-7 sm:px-4'>
-                        {children}
-                    </main>
+                    <main className=''>{children}</main>
                 </ThemeProvider>
             </body>
         </html>

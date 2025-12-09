@@ -96,8 +96,8 @@ export const adminNavItems: NavSection[] = [
         title: 'Admin Management',
         items: [
             {
-                title: 'Appointments',
-                href: '/admin/dashboard/appointments-management',
+                title: 'Categories',
+                href: '/admin/dashboard/categories-management',
                 icon: 'Calendar', // ✅ String
                 roles: ['ADMIN'],
             },
