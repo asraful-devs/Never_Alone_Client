@@ -17,6 +17,31 @@ export function formatDateTime(date: string | Date): string {
     });
 }
 
+export function formatDate(date: string | Date): string {
+    return new Date(date).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+}
+
+export function formatTime(date: string | Date): string {
+    return new Date(date).toLocaleString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+    });
+}
+
+export function formatTimeRange(
+    startDate: string | Date,
+    endDate: string | Date
+): string {
+    const start = formatTime(startDate);
+    const end = formatTime(endDate);
+    return `${start} - ${end}`;
+}
+
 export function queryStringFormatter(searchParamsObj: {
     [key: string]: string | string[] | undefined;
 }): string {

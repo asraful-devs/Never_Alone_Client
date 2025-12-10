@@ -44,10 +44,10 @@ export const hostNavItems: NavSection[] = [
         title: 'Host Management',
         items: [
             {
-                title: 'Post Consultations',
-                href: '/host/dashboard/appointments-management',
+                title: 'Events',
+                href: '/host/dashboard/events-management',
                 icon: 'Calendar', // ✅ String
-                badge: '3',
+                badge: '',
                 roles: ['HOST'],
             },
         ],

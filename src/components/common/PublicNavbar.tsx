@@ -9,8 +9,8 @@ import { ModeToggle } from './ModeToggle';
 
 const PublicNavbar = async () => {
     const navItems = [
-        { href: '#', label: 'Consultation' },
-        { href: '#', label: 'Health Plans' },
+        { href: '/', label: 'Home' },
+        { href: '/events', label: 'Events' },
         { href: '#', label: 'Medicine' },
         { href: '#', label: 'Diagnostics' },
         { href: '#', label: 'NGOs' },
@@ -23,7 +23,7 @@ const PublicNavbar = async () => {
             <div className='container mx-auto flex h-16 items-center justify-between px-4'>
                 <Link href='/' className='flex items-center space-x-2'>
                     <span className='text-xl font-bold text-primary'>
-                        Health Care
+                        Never Alone
                     </span>
                 </Link>
 
