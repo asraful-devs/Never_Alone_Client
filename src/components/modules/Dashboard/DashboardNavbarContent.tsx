@@ -1,12 +1,13 @@
 'use client';
 
+import { ModeToggle } from '@/components/common/ModeToggle';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Bell, Menu, Search } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NavSection } from '../../../types/dashboard.interface';
 import { UserInfo } from '../../../types/user.interface';
+import { Input } from '../../ui/input';
 import DashboardMobileSidebar from './DashboardMobileSidebar';
 import UserDropdown from './UserDropdown';
 
@@ -69,11 +70,8 @@ const DashboardNavbarContent = ({
 
                 {/* Right Side Actions */}
                 <div className='flex items-center gap-2'>
-                    {/* Notifications */}
-                    <Button variant='outline' size='icon' className='relative'>
-                        <Bell className='h-5 w-5' />
-                        <span className='absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500' />
-                    </Button>
+                    {/* Theme Toggle */}
+                    <ModeToggle />
 
                     {/* User Dropdown */}
                     <UserDropdown userInfo={userInfo} />

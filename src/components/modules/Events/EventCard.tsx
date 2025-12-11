@@ -50,7 +50,7 @@ const EventCard = ({ event }: EventCardProps) => {
                 )}
 
                 {/* Fee Badge */}
-                <div className='absolute top-3 right-3 bg-white rounded-lg px-3 py-1 font-bold text-primary'>
+                <div className='absolute top-3 right-3 bg-white rounded-lg px-3 py-1 font-bold text-black'>
                     ${event.fee}
                 </div>
             </div>

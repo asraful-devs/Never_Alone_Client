@@ -12,6 +12,16 @@ export const getCommonNavItems = async (
         {
             items: [
                 {
+                    title: 'Home',
+                    href: '/',
+                    icon: 'Home', // ✅ String
+                    roles: ['USER', 'HOST', 'ADMIN'],
+                },
+            ],
+        },
+        {
+            items: [
+                {
                     title: 'Dashboard',
                     href: defaultDashboard,
                     icon: 'LayoutDashboard',
