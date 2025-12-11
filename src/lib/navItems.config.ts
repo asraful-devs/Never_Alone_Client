@@ -66,11 +66,23 @@ export const hostNavItems: NavSection[] = [
 
 export const userNavItems: NavSection[] = [
     {
-        title: 'User Management',
+        title: ' My Details Management',
         items: [
             {
-                title: 'My Appointments',
-                href: '/dashboard/my-appointments',
+                title: 'My Bookings',
+                href: '/user/dashboard/my-bookings',
+                icon: 'Calendar', // ✅ String
+                roles: ['USER'],
+            },
+            {
+                title: 'My Payments',
+                href: '/user/dashboard/my-payments',
+                icon: 'Calendar', // ✅ String
+                roles: ['USER'],
+            },
+            {
+                title: 'My Reviews',
+                href: '/user/dashboard/my-reviews',
                 icon: 'Calendar', // ✅ String
                 roles: ['USER'],
             },
@@ -103,8 +115,14 @@ export const adminNavItems: NavSection[] = [
         ],
     },
     {
-        title: 'Admin Management',
+        title: 'Event&Category Management',
         items: [
+            {
+                title: 'Events',
+                href: '/admin/dashboard/events-management',
+                icon: 'Calendar', // ✅ String
+                roles: ['ADMIN'],
+            },
             {
                 title: 'Categories',
                 href: '/admin/dashboard/categories-management',

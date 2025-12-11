@@ -1,6 +1,7 @@
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 
+import { getUserInfo } from '../../service/auth/getUserInfo';
 import { getCookie } from '../../service/auth/tokenHandler';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '../ui/sheet';
@@ -8,12 +9,17 @@ import LogoutButton from './LogoutButton';
 import { ModeToggle } from './ModeToggle';
 
 const PublicNavbar = async () => {
+    const user = await getUserInfo();
+
+    const dashboardHref = user?.role
+        ? `/${String(user.role).toLowerCase()}/dashboard`
+        : '/dashboard';
+
     const navItems = [
         { href: '/', label: 'Home' },
         { href: '/events', label: 'Events' },
-        { href: '#', label: 'Medicine' },
-        { href: '#', label: 'Diagnostics' },
-        { href: '#', label: 'NGOs' },
+        { href: '/about', label: 'About' },
+        { href: '/contact', label: 'Contact' },
     ];
 
     const accessToken = await getCookie('accessToken');
@@ -37,6 +43,14 @@ const PublicNavbar = async () => {
                             {link.label}
                         </Link>
                     ))}
+                    {accessToken && (
+                        <Link
+                            href={dashboardHref}
+                            className='text-foreground hover:text-primary transition-colors'
+                        >
+                            Dashboard
+                        </Link>
+                    )}
                 </nav>
 
                 <div className='hidden md:flex items-center space-x-2'>
@@ -77,6 +91,14 @@ const PublicNavbar = async () => {
                                         {link.label}
                                     </Link>
                                 ))}
+                                {accessToken && (
+                                    <Link
+                                        href={dashboardHref}
+                                        className='text-lg font-medium'
+                                    >
+                                        Dashboard
+                                    </Link>
+                                )}
                                 <div className='border-t pt-4 flex flex-col space-y-4'>
                                     <div className='flex justify-center'></div>
                                     <ModeToggle />

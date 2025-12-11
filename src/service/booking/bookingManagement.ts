@@ -8,6 +8,7 @@ import { BookingValidation } from '../../zod/booking.validation';
 /**
  * CREATE BOOKING
  * API: POST /booking/create-booking
+ * Returns: { paymentUrl: string }
  */
 export async function createBooking(_prevState: any, formData: FormData) {
     const validationPayload: any = {
@@ -15,7 +16,6 @@ export async function createBooking(_prevState: any, formData: FormData) {
         userId: formData.get('userId') as string,
     };
 
-    // Convert seats to number
     const seatsValue = formData.get('seats') as string;
     if (seatsValue) {
         validationPayload.seats = parseInt(seatsValue, 10);
@@ -28,7 +28,7 @@ export async function createBooking(_prevState: any, formData: FormData) {
 
     if (!validation.success && validation.errors) {
         return {
-            success: validation.success,
+            success: false,
             message: 'Validation failed',
             formData: validationPayload,
             errors: validation.errors,
@@ -49,8 +49,13 @@ export async function createBooking(_prevState: any, formData: FormData) {
             body: JSON.stringify(validation.data),
         });
 
-        const result = await response.json();
-        return result;
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(errText || 'Failed to create booking');
+        }
+
+        const result = await response.json(); // { paymentUrl }
+        return { success: true, ...result };
     } catch (error: any) {
         console.error('Create booking error:', error);
         return {
@@ -65,6 +70,35 @@ export async function createBooking(_prevState: any, formData: FormData) {
 }
 
 /**
+ * GET USER BOOKINGS
+ * API: GET /booking/my-bookings
+ * Returns: Booking[] (plain array)
+ */
+export async function getUserBookings() {
+    try {
+        const response = await serverFetch.get('/booking/my-bookings');
+
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(errText || 'Failed to fetch bookings');
+        }
+
+        const result = await response.json(); // plain array from backend
+        return { success: true, data: Array.isArray(result) ? result : [] };
+    } catch (error: any) {
+        console.error('Get user bookings error:', error);
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === 'development'
+                    ? error.message
+                    : 'Failed to fetch bookings',
+            data: [],
+        };
+    }
+}
+
+/**
  * DELETE BOOKING
  * API: DELETE /booking/delete-booking/:id
  */
@@ -73,17 +107,22 @@ export async function deleteBooking(id: string) {
         const response = await serverFetch.delete(
             `/booking/delete-booking/${id}`
         );
+
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(errText || 'Failed to delete booking');
+        }
+
         const result = await response.json();
-        return result;
+        return { success: true, ...result };
     } catch (error: any) {
         console.log(error);
         return {
             success: false,
-            message: `${
+            message:
                 process.env.NODE_ENV === 'development'
                     ? error.message
-                    : 'Something went wrong'
-            }`,
+                    : 'Something went wrong',
         };
     }
 }

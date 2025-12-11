@@ -9,11 +9,17 @@ import EventFormDialog from './EventFormDialog';
 interface EventsManagementHeaderProps {
     categories: Array<{ id: string; name: string }>;
     hostData?: { id?: string | null } | null;
+    title?: string;
+    description?: string;
+    enableCreate?: boolean;
 }
 
 const EventsManagementHeader = ({
     categories,
     hostData,
+    title = 'My Events',
+    description = 'Create, manage, and track your events',
+    enableCreate = true,
 }: EventsManagementHeaderProps) => {
     const router = useRouter();
     const [, startTransition] = useTransition();
@@ -37,7 +43,7 @@ const EventsManagementHeader = ({
 
     return (
         <>
-            {isDialogOpen && (
+            {enableCreate && isDialogOpen && (
                 <EventFormDialog
                     key={dialogKey}
                     open={isDialogOpen}
@@ -49,13 +55,17 @@ const EventsManagementHeader = ({
             )}
 
             <ManagementPageHeader
-                title='My Events'
-                description='Create, manage, and track your events'
-                action={{
-                    label: 'Create Event',
-                    icon: Plus,
-                    onClick: handleOpenDialog,
-                }}
+                title={title}
+                description={description}
+                action={
+                    enableCreate
+                        ? {
+                              label: 'Create Event',
+                              icon: Plus,
+                              onClick: handleOpenDialog,
+                          }
+                        : undefined
+                }
             />
         </>
     );

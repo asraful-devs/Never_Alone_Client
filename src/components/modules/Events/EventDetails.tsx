@@ -8,15 +8,27 @@ import { Event } from '@/types/event.interface';
 import { Calendar, Clock, DollarSign, MapPin, Users } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import BookingDialog from './BookingDialog';
 
 interface EventDetailsProps {
     event: Event;
+    userId?: string | null;
 }
 
-const EventDetails = ({ event }: EventDetailsProps) => {
+const EventDetails = ({ event, userId }: EventDetailsProps) => {
     const seatsAvailable = event.seats - event.userIds.length;
     const isSoldOut = seatsAvailable <= 0;
     const occupancyPercentage = (event.userIds.length / event.seats) * 100;
+    const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false);
+
+    const handleBookingEvent = () => {
+        if (!userId) {
+            alert('Please login to book this event');
+            return;
+        }
+        setIsBookingDialogOpen(true);
+    };
 
     return (
         <div className='min-h-screen bg-background py-8 px-4 md:px-8'>
@@ -88,6 +100,7 @@ const EventDetails = ({ event }: EventDetailsProps) => {
                                     className='w-full h-12'
                                     disabled={isSoldOut}
                                     size='lg'
+                                    onClick={handleBookingEvent}
                                 >
                                     {isSoldOut ? 'Sold Out' : 'Register Now'}
                                 </Button>
@@ -324,6 +337,19 @@ const EventDetails = ({ event }: EventDetailsProps) => {
                     </div>
                 </div>
             </div>
+
+            {/* Booking Dialog */}
+            {userId && (
+                <BookingDialog
+                    open={isBookingDialogOpen}
+                    onClose={() => setIsBookingDialogOpen(false)}
+                    onSuccess={() => {
+                        setIsBookingDialogOpen(false);
+                    }}
+                    event={event}
+                    userId={userId}
+                />
+            )}
         </div>
     );
 };

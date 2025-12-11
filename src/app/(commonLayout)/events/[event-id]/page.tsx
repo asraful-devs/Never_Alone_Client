@@ -1,4 +1,5 @@
 import EventDetails from '../../../../components/modules/Events/EventDetails';
+import { getUserInfo } from '../../../../service/auth/getUserInfo';
 import { getEventById } from '../../../../service/events/getEventById';
 import { Event } from '../../../../types/event.interface';
 
@@ -8,7 +9,10 @@ const EventDetailsPage = async ({
     params: Promise<{ 'event-id': string }>;
 }) => {
     const { 'event-id': eventId } = await params;
-    const eventResult = await getEventById(eventId);
+    const [eventResult, userInfo] = await Promise.all([
+        getEventById(eventId),
+        getUserInfo(),
+    ]);
 
     if (!eventResult.success || !eventResult.data) {
         return (
@@ -28,7 +32,7 @@ const EventDetailsPage = async ({
 
     const event: Event = eventResult.data;
 
-    return <EventDetails event={event} />;
+    return <EventDetails event={event} userId={userInfo?.id} />;
 };
 
 export default EventDetailsPage;
