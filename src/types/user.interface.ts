@@ -4,6 +4,12 @@ export interface UserInfo {
     id: string;
     email: string;
     role: UserRole;
+    name?: string;
+    phoneNumber?: string;
+    location?: string;
+    profilePhoto?: string;
+    bio?: string;
+    createdAt?: string;
 }
 
 export interface IUser {

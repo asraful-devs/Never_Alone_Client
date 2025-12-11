@@ -313,14 +313,14 @@ const EventDetails = ({ event }: EventDetailsProps) => {
                         </Card>
 
                         {/* Event ID */}
-                        <Card className='p-4 bg-slate-50 dark:bg-slate-900'>
+                        {/* <Card className='p-4 bg-slate-50 dark:bg-slate-900'>
                             <p className='text-xs text-muted-foreground mb-1'>
                                 Event ID
                             </p>
                             <p className='text-xs font-mono break-all text-foreground'>
                                 {event.id}
                             </p>
-                        </Card>
+                        </Card> */}
                     </div>
                 </div>
             </div>

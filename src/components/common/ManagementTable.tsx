@@ -46,6 +46,10 @@ function ManagementTable<T>({
     isRefreshing = false,
 }: ManagementTableProps<T>) {
     const hasActions = onView || onEdit || onDelete;
+
+    // Ensure data is always an array
+    const safeData = Array.isArray(data) ? data : [];
+
     return (
         <>
             <div className='rounded-lg border relative'>
@@ -82,7 +86,7 @@ function ManagementTable<T>({
                     </TableHeader>
 
                     <TableBody>
-                        {data.length === 0 ? (
+                        {safeData.length === 0 ? (
                             <TableRow>
                                 <TableCell
                                     colSpan={
@@ -94,7 +98,7 @@ function ManagementTable<T>({
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            data?.map((item) => (
+                            safeData?.map((item) => (
                                 <TableRow key={getRowKey(item)}>
                                     {columns.map((col, idx) => (
                                         <TableCell
