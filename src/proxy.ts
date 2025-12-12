@@ -37,9 +37,6 @@ export async function proxy(request: NextRequest) {
     }
 
     const routerOwner = getRouteOwner(pathName);
-    //path = /doctor/appointments => "DOCTOR"
-    //path = /my-profile => "COMMON"
-    //path = /login => null
 
     const isAuth = isAuthRoute(pathName);
 

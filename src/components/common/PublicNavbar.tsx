@@ -18,8 +18,7 @@ const PublicNavbar = async () => {
     const navItems = [
         { href: '/', label: 'Home' },
         { href: '/events', label: 'Events' },
-        { href: '/about', label: 'About' },
-        { href: '/contact', label: 'Contact' },
+        { href: '/about-us', label: 'About' },
     ];
 
     const accessToken = await getCookie('accessToken');
