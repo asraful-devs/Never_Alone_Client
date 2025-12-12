@@ -74,12 +74,12 @@ export const userNavItems: NavSection[] = [
                 icon: 'Calendar', // ✅ String
                 roles: ['USER'],
             },
-            {
-                title: 'My Payments',
-                href: '/user/dashboard/my-payments',
-                icon: 'Calendar', // ✅ String
-                roles: ['USER'],
-            },
+            // {
+            //     title: 'My Payments',
+            //     href: '/user/dashboard/my-payments',
+            //     icon: 'Calendar', // ✅ String
+            //     roles: ['USER'],
+            // },
             {
                 title: 'My Reviews',
                 href: '/user/dashboard/my-reviews',

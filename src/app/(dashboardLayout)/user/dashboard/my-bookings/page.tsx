@@ -1,16 +1,12 @@
-// app/(dashboardLayout)/user/dashboard/my-bookings/page.tsx
-
 'use server';
-
 import MyBookingsList from '@/components/modules/User/Booking/MyBookingsList';
 import { getUserInfo } from '@/service/auth/getUserInfo';
 import { getUserBookings } from '@/service/booking/bookingManagement';
 
 const MyBookingPage = async () => {
-    // ✅ User authentication check
     const userInfo = await getUserInfo();
 
-    if (!userInfo) {
+    if (!userInfo || !userInfo.email) {
         return (
             <div className='p-4'>
                 <h1 className='text-xl font-semibold mb-4'>My Bookings</h1>
@@ -21,8 +17,7 @@ const MyBookingPage = async () => {
         );
     }
 
-    // ✅ Fetch bookings (JWT middleware automatically gets user from token)
-    const res = await getUserBookings();
+    const res = await getUserBookings(userInfo.email);
 
     const bookings = Array.isArray(res?.data) ? res.data : [];
     const success = !!res?.success;
@@ -32,8 +27,8 @@ const MyBookingPage = async () => {
             <h1 className='text-xl font-semibold mb-4'>My Bookings</h1>
 
             {!success && (
-                <div className='text-sm text-muted-foreground'>
-                    Failed to load bookings.
+                <div className='text-sm text-red-600 dark:text-red-400'>
+                    {res?.message || 'Failed to load bookings.'}
                 </div>
             )}
 
@@ -44,7 +39,16 @@ const MyBookingPage = async () => {
             )}
 
             {success && bookings.length > 0 && (
-                <MyBookingsList bookings={bookings} />
+                <>
+                    <div className='text-sm text-muted-foreground mb-4'>
+                        Total: {res?.meta?.total || bookings.length} bookings
+                    </div>
+                    {/* ✅ Pass user email */}
+                    <MyBookingsList
+                        bookings={bookings}
+                        userEmail={userInfo.email}
+                    />
+                </>
             )}
         </div>
     );
