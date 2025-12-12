@@ -50,14 +50,14 @@ export async function createCategory(_prevState: any, formData: FormData) {
         validationPayload.isActive = isActive === 'on' || isActive === 'true';
     }
 
-    console.log('📋 Form Data Extracted:', validationPayload);
+    // console.log('📋 Form Data Extracted:', validationPayload);
 
     const validatedPayload = zodValidator(
         validationPayload,
         CategoryValidation.CreateCategoryZodSchema
     );
 
-    console.log('✅ Validated Payload:', validatedPayload);
+    // console.log('✅ Validated Payload:', validatedPayload);
 
     if (!validatedPayload.success && validatedPayload.errors) {
         return {

@@ -47,8 +47,8 @@ const EventFormDialog = ({
     const [state, formAction, isPending] = useActionState<any, FormData>(
         async (prevState: any, formData: FormData) => {
             try {
-                console.log('=== FORM SUBMISSION START ===');
-                console.log('IsEdit:', isEdit);
+                // console.log('=== FORM SUBMISSION START ===');
+                // console.log('IsEdit:', isEdit);
 
                 // Log form data contents
                 const formEntries: any = {};
@@ -61,19 +61,19 @@ const EventFormDialog = ({
                         formEntries[key] = value;
                     }
                 });
-                console.log('Form Data Sent:', formEntries);
+                // console.log('Form Data Sent:', formEntries);
 
                 let result;
                 if (isEdit) {
-                    console.log('Calling updateEvent with eventId:', event!.id);
+                    // console.log('Calling updateEvent with eventId:', event!.id);
                     result = await updateEvent(event!.id, prevState, formData);
                 } else {
-                    console.log('Calling createEvent');
+                    // console.log('Calling createEvent');
                     result = await createEvent(null, formData);
                 }
 
-                console.log('Response Received:', result);
-                console.log('=== FORM SUBMISSION END ===');
+                // console.log('Response Received:', result);
+                // console.log('=== FORM SUBMISSION END ===');
 
                 return result;
             } catch (error: any) {

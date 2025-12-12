@@ -42,10 +42,10 @@ export const loginUser = async (
             redirectTo = formData?.redirect ?? null;
         }
 
-        console.log('➡️ login payload:', payload);
-        console.log('➡️ redirect target:', redirectTo);
+        // console.log('➡️ login payload:', payload);
+        // console.log('➡️ redirect target:', redirectTo);
 
-        console.log(redirectTo, 'server Actions');
+        // console.log(redirectTo, 'server Actions');
         let accessTokenObject: null | any = null;
         let refreshTokenObject: null | any = null;
 
@@ -58,7 +58,7 @@ export const loginUser = async (
         }
 
         const validatedPayload = validationResult.data;
-        console.log('✅ payload validated');
+        // console.log('✅ payload validated');
 
         const res = await serverFetch.post('/auth/login', {
             body: JSON.stringify(validatedPayload),
@@ -68,7 +68,7 @@ export const loginUser = async (
         });
 
         const result = await res.json();
-        console.log('ℹ️ login response:', result);
+        // console.log('ℹ️ login response:', result);
 
         if (!res.ok || result?.success === false) {
             return {
@@ -129,7 +129,7 @@ export const loginUser = async (
         );
 
         // এই line টা add করুন
-        console.log('Decoded Token:', verifiedToken);
+        // console.log('Decoded Token:', verifiedToken);
 
         if (typeof verifiedToken === 'string') {
             throw new Error('Invalid token');

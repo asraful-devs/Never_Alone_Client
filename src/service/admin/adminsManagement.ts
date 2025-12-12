@@ -132,7 +132,7 @@ export async function updateAdmin(
         AdminValidation.updateAdminValidationSchema
     );
 
-    console.log(validation);
+    // console.log(validation);
 
     if (!validation.success && validation.errors) {
         return {
@@ -188,7 +188,7 @@ export async function updateAdmin(
         }
 
         // Log FormData contents for debugging
-        console.log('FormData entries:');
+        // console.log('FormData entries:');
         for (const [key, value] of updateFormData.entries()) {
             console.log(
                 `${key}:`,
@@ -225,7 +225,7 @@ export async function updateAdmin(
             };
         } else {
             result = JSON.parse(responseText);
-            console.log('Update result:', result);
+            // console.log('Update result:', result);
         }
 
         // ⚠️ IMPORTANT: revalidatePath বা redirect কল করবেন না

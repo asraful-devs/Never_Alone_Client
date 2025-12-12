@@ -83,7 +83,7 @@ export async function proxy(request: NextRequest) {
             );
         }
     }
-    console.log(userRole);
+    // console.log(userRole);
 
     return NextResponse.next();
 }

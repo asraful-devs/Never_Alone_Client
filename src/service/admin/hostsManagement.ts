@@ -134,7 +134,7 @@ export async function updateHost(
         HostValidation.updateHostValidationSchema
     );
 
-    console.log(validation);
+    // console.log(validation);
 
     if (!validation.success && validation.errors) {
         return {
@@ -196,7 +196,7 @@ export async function updateHost(
         }
 
         // Log FormData contents for debugging
-        console.log('FormData entries:');
+        // console.log('FormData entries:');
         for (const [key, value] of updateFormData.entries()) {
             console.log(
                 `${key}:`,

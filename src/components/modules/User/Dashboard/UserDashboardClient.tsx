@@ -65,7 +65,7 @@ const UserDashboardClient = () => {
 
                 // Fetch user bookings and reviews
                 const [bookingsResponse, reviewsResponse] = await Promise.all([
-                    getUserBookings({}).catch(() => null),
+                    getUserBookings('').catch(() => null),
                     getReviews().catch(() => null),
                 ]);
 

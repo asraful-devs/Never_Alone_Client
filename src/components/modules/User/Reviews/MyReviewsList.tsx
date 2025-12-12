@@ -1,11 +1,9 @@
 'use client';
 
-import DeleteConfirmationDialog from '@/components/common/DeleteConfirmationDialog';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { deleteReview } from '@/service/review/reviewManagement';
-import { Star, Trash2 } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -116,7 +114,7 @@ const MyReviewsList = ({ reviews }: MyReviewsListProps) => {
                             </div>
                         </div>
 
-                        <DeleteConfirmationDialog
+                        {/* <DeleteConfirmationDialog
                             open={isDeleting === review.id}
                             onOpenChange={(open) => {
                                 if (!open) setIsDeleting(null);
@@ -125,17 +123,17 @@ const MyReviewsList = ({ reviews }: MyReviewsListProps) => {
                             description='Are you sure you want to delete this review? This action cannot be undone.'
                             onConfirm={() => handleDeleteReview(review.id)}
                             isDeleting={isDeleting === review.id}
-                        >
-                            <Button
-                                variant='ghost'
-                                size='sm'
-                                className='text-red-600 hover:text-red-700 hover:bg-red-50'
-                                disabled={isDeleting === review.id}
-                                onClick={() => setIsDeleting(review.id)}
-                            >
-                                <Trash2 size={16} />
-                            </Button>
-                        </DeleteConfirmationDialog>
+                            trigger={
+                                <Button
+                                    variant='ghost'
+                                    size='sm'
+                                    className='text-red-600 hover:text-red-700 hover:bg-red-50'
+                                    disabled={isDeleting === review.id}
+                                >
+                                    <Trash2 size={16} />
+                                </Button>
+                            }
+                        /> */}
                     </div>
                 </Card>
             ))}

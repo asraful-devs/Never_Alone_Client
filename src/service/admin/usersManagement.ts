@@ -124,8 +124,8 @@ export async function updateUser(
     const address = formData.get('address') as string;
     const file = formData.get('file') as File | null;
 
-    console.log(typeof age);
-    console.log(age);
+    // console.log(typeof age);
+    // console.log(age);
 
     const validationPayload: any = {};
 
@@ -139,7 +139,7 @@ export async function updateUser(
         UserValidation.updateUserValidationSchema
     );
 
-    console.log(validation);
+    // console.log(validation);
 
     if (!validation.success && validation.errors) {
         return {
@@ -207,7 +207,7 @@ export async function updateUser(
         }
 
         // Log FormData contents for debugging
-        console.log('FormData entries:');
+        // console.log('FormData entries:');
         for (const [key, value] of updateFormData.entries()) {
             console.log(
                 `${key}:`,
@@ -248,7 +248,7 @@ export async function updateUser(
             };
         } else {
             result = JSON.parse(responseText);
-            console.log('Update result:', result);
+            // console.log('Update result:', result);
         }
 
         // ⚠️ IMPORTANT: revalidatePath বা redirect কল করবেন না

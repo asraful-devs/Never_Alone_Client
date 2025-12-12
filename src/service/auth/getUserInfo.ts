@@ -58,7 +58,7 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
             role: role as UserInfo['role'],
         };
 
-        console.log('✅ UserInfo successfully created:', userInfo);
+        // console.log('✅ UserInfo successfully created:', userInfo);
         return userInfo;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

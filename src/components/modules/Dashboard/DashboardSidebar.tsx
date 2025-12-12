@@ -10,7 +10,7 @@ import DashboardSidebarContent from './DashboardSidebarContent';
 
 const DashboardSidebar = async () => {
     const userInfo = (await getUserInfo()) as UserInfo;
-    console.log(userInfo, 'dashboard sidebar');
+    // console.log(userInfo, 'dashboard sidebar');
 
     // 🔥 যদি userInfo null হয়, redirect করুন
     if (!userInfo) {

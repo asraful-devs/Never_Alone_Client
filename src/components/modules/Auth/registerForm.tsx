@@ -18,7 +18,7 @@ const RegisterForm = () => {
     // Debug: Check state changes
     useEffect(() => {
         if (state) {
-            console.log('Register form state:', state);
+            // console.log('Register form state:', state);
         }
     }, [state]);
 

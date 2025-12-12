@@ -15,7 +15,7 @@ const HostEventsManagementPage = async ({
     const queryString = queryStringFormatter(params);
     const hostData = await getUserInfo();
 
-    console.log(hostData, '.................................');
+    // console.log(hostData, '.................................');
 
     const [eventsRes, categoriesRes] = await Promise.all([
         getEvents(queryString),

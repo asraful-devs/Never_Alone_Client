@@ -183,7 +183,7 @@ export async function updateEvent(
         EventValidation.updateEventZodSchema
     );
 
-    console.log(validation);
+    // console.log(validation);
 
     if (!validation.success && validation.errors) {
         return {
@@ -226,7 +226,7 @@ export async function updateEvent(
         }
 
         // Log FormData contents for debugging
-        console.log('FormData entries:');
+        // console.log('FormData entries:');
         for (const [key, value] of updateFormData.entries()) {
             console.log(
                 `${key}:`,
@@ -257,7 +257,7 @@ export async function updateEvent(
             };
         } else {
             result = JSON.parse(responseText);
-            console.log('Update result:', result);
+            // console.log('Update result:', result);
         }
 
         // ⚠️ IMPORTANT: revalidatePath বা redirect কল করবেন না

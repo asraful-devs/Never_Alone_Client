@@ -79,8 +79,8 @@ export async function getUserBookings(email: string) {
         const params = new URLSearchParams({ email });
         const url = `/booking/my-bookings?${params.toString()}`;
 
-        console.log('🔍 Fetching bookings for:', email);
-        console.log('📡 API URL:', url);
+        // console.log('🔍 Fetching bookings for:', email);
+        // console.log('📡 API URL:', url);
 
         const response = await serverFetch.get(url);
 

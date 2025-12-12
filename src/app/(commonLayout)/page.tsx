@@ -9,7 +9,7 @@ import { getEvents } from '../../service/events/eventsManagement';
 export default async function HomePage() {
     const carouselData = await getCarousels();
     const eventsData = await getEvents();
-    console.log(eventsData);
+    // console.log(eventsData);
 
     return (
         <div className='space-y-8'>

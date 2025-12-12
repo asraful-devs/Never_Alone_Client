@@ -14,7 +14,7 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
     const [state, formAction, isPending] = useActionState(loginUser, null);
     const [showPassword, setShowPassword] = useState(false);
 
-    console.log('Login form state:', state);
+    // console.log('Login form state:', state);
 
     return (
         <div className='min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-6 bg-gray-50 dark:bg-slate-950'>
