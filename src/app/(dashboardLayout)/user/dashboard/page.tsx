@@ -1,5 +1,7 @@
+import UserDashboardClient from '@/components/modules/User/Dashboard/UserDashboardClient';
+
 const UserDashboardPage = () => {
-    return <div>HI</div>;
+    return <UserDashboardClient />;
 };
 
 export default UserDashboardPage;
