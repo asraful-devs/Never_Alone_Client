@@ -115,7 +115,7 @@ export const adminNavItems: NavSection[] = [
         ],
     },
     {
-        title: 'Event&Category Management',
+        title: 'Others Management',
         items: [
             {
                 title: 'Events',
@@ -126,6 +126,12 @@ export const adminNavItems: NavSection[] = [
             {
                 title: 'Categories',
                 href: '/admin/dashboard/categories-management',
+                icon: 'Calendar', // ✅ String
+                roles: ['ADMIN'],
+            },
+            {
+                title: 'Carousels',
+                href: '/admin/dashboard/carousels-management',
                 icon: 'Calendar', // ✅ String
                 roles: ['ADMIN'],
             },
