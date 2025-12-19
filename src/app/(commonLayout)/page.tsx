@@ -12,7 +12,7 @@ export default async function HomePage() {
     // console.log(eventsData);
 
     return (
-        <div className='space-y-8'>
+        <div className='space-y-20'>
             <Hero />
 
             {/* <Categories /> */}

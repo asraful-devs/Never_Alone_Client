@@ -33,7 +33,6 @@ export const registerUser = async (
         );
 
         if (!validationResult.success) {
-            // console.log('❌ Validation Error:', validationResult.errors);
             return {
                 success: false,
                 message: 'Validation failed. Please check your inputs.',
@@ -42,7 +41,6 @@ export const registerUser = async (
         }
 
         const validatedPayload: any = validationResult.data;
-        // console.log('✅ Validation Passed:', validatedPayload);
 
         // Prepare registration data
         const registerData = {
@@ -50,8 +48,6 @@ export const registerUser = async (
             email: validatedPayload.email,
             password: validatedPayload.password,
         };
-
-        // console.log('🔄 Sending to Backend:', registerData);
 
         // Call backend API
         const res = await serverFetch.post('/user/create-user', {
@@ -62,8 +58,6 @@ export const registerUser = async (
         });
 
         const result = await res.json();
-
-        // console.log('✨ Backend Response:', result);
 
         if (result.success) {
             // Auto login after successful registration

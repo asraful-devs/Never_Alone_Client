@@ -1,0 +1,31 @@
+footer all link page create . components design claude.ai te ase.
+carusel    <-  ->     this button remove && also real Image & Event Links
+Event Real data add. Imgae Hd
+card design defferent 2 design show
+
+About page data design
+
+contact Us page add . design . real data send message to email sent
+Client (Next.js form)
+→ POST request (name, email, subject, message)
+→ Express backend
+→ Nodemailer
+→ Email sent directly to your inbox
+
+
+
+
+একটু সহজ ভাবে বলি আমরা চাইলে একটা ছোটখাটো আকারে ব্লগ নামে জিনিস রাখতেই পারি কেননা ধরুন আপনি একটা ইভেন্ট ঘুরলেন কমেন্ট করলেন এ সম্পর্কে একটা বিস্তারিত ওভারভিউ ব্লগ ধারণা দিলেন
+
+
+
+footer page
+        { icon: Facebook, link: '#', label: 'Facebook' },
+        { icon: Twitter, link: '#', label: 'Twitter' },
+        { icon: Instagram, link: '#', label: 'Instagram' },
+        { icon: Linkedin, link: '#', label: 'LinkedIn' },
+
+
+
+
+login && Register toast

@@ -134,7 +134,7 @@ const PublicNavbar = async () => {
                                 {accessToken && (
                                     <Link
                                         href={dashboardHref}
-                                        className='flex items-center justify-between px-4 py-3 text-base font-medium rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900 dark:hover:to-purple-900 transition-all duration-200 group'
+                                        className='flex items-center justify-between px-4 py-3 text-base font-medium rounded-xl bg-linear-to-r from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-900 dark:hover:to-purple-900 transition-all duration-200 group'
                                     >
                                         <span className='font-semibold'>
                                             Dashboard

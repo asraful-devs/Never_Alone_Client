@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { loginUser } from '../../../service/auth/loginUser';
 import EyeButton from '../../common/EyeButton';
 import InputFieldError from '../../common/InputFieldError';
@@ -14,7 +15,16 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
     const [state, formAction, isPending] = useActionState(loginUser, null);
     const [showPassword, setShowPassword] = useState(false);
 
-    // console.log('Login form state:', state);
+    // Toast notification handler
+    useEffect(() => {
+        if (!state) return;
+
+        if (state.success) {
+            toast.success(state.message || 'Login successful! Redirecting...');
+        } else if (state.message) {
+            toast.error(state.message);
+        }
+    }, [state]);
 
     return (
         <div className='min-h-screen flex items-center justify-center p-3 sm:p-4 md:p-6 bg-gray-50 dark:bg-slate-950'>

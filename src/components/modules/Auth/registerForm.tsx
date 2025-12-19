@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { registerUser } from '../../../service/auth/registerUser';
 import EyeButton from '../../common/EyeButton';
 import InputFieldError from '../../common/InputFieldError';
@@ -15,10 +16,28 @@ const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    // Debug: Check state changes
+    const hasShownToast = useRef(false);
+
     useEffect(() => {
-        if (state) {
-            // console.log('Register form state:', state);
+        if (!state || hasShownToast.current) return;
+
+        // if (state.success === true) {
+        //     toast.success(state.message || 'Registration successful');
+        //     hasShownToast.current = true;
+        // }
+
+        if (state.success === true) {
+            toast.success(state.message);
+            hasShownToast.current = true;
+
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1200);
+        }
+
+        if (state.success === false) {
+            toast.error(state.message || 'Registration failed');
+            hasShownToast.current = true;
         }
     }, [state]);
 
@@ -60,21 +79,6 @@ const RegisterForm = () => {
                                 className='space-y-3 sm:space-y-4'
                             >
                                 <FieldGroup className='space-y-2 sm:space-y-3'>
-                                    {/* Global Error Message */}
-                                    {state?.message && !state?.success && (
-                                        <div className='p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-200'>
-                                            {state.message}
-                                        </div>
-                                    )}
-
-                                    {/* Success Message */}
-                                    {state?.success && (
-                                        <div className='p-3 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg text-sm text-green-700 dark:text-green-200'>
-                                            {state.message ||
-                                                'Registration successful! Redirecting...'}
-                                        </div>
-                                    )}
-
                                     {/* Full Name */}
                                     <Field>
                                         <FieldLabel
