@@ -23,11 +23,10 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
             return null;
         }
 
-        // 🔥 FIXED: parsonId support যোগ করা হলো
         const id =
             verifiedToken.id ??
             verifiedToken._id ??
-            verifiedToken.parsonId ?? // ✅ এটা add করলাম
+            verifiedToken.parsonId ??
             verifiedToken.userId ??
             verifiedToken.user_id ??
             verifiedToken.sub;
@@ -42,11 +41,24 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
             verifiedToken.userRole ??
             verifiedToken.user_role;
 
-        if (!id || !email || !role) {
+        const name =
+            verifiedToken.name ??
+            verifiedToken.userName ??
+            verifiedToken.user_name;
+
+        const profilePhoto =
+            verifiedToken.profilePhoto ??
+            verifiedToken.profile_photo ??
+            verifiedToken.userProfilePhoto ??
+            verifiedToken.user_profile_photo;
+
+        if (!id || !email || !role || !name) {
             console.warn('getUserInfo: token missing required claims', {
                 hasId: !!id,
                 hasEmail: !!email,
                 hasRole: !!role,
+                hasName: !!name,
+                hasProfilePhoto: !!profilePhoto,
                 availableFields: Object.keys(verifiedToken),
             });
             return null;
@@ -54,7 +66,9 @@ export const getUserInfo = async (): Promise<UserInfo | null> => {
 
         const userInfo: UserInfo = {
             id: String(id),
+            name: String(name),
             email: String(email),
+            profilePhoto: profilePhoto ? String(profilePhoto) : undefined,
             role: role as UserInfo['role'],
         };
 
