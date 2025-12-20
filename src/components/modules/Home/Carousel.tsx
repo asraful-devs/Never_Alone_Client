@@ -5,8 +5,6 @@ import { Button } from '@/components/ui/button';
 import {
     CarouselContent,
     CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
     Carousel as UiCarousel,
 } from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
@@ -23,6 +21,8 @@ const indicatorBaseClasses =
 
 const HomeCarousel = ({ items = [], className }: HomeCarouselProps) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [api, setApi] = useState<null | any>(null);
 
     const slides = useMemo(() => (Array.isArray(items) ? items : []), [items]);
 
@@ -30,6 +30,27 @@ const HomeCarousel = ({ items = [], className }: HomeCarouselProps) => {
         // Reset index if items change
         setActiveIndex(0);
     }, [slides.length]);
+
+    // Auto-play functionality - changes slide every 5 seconds
+    useEffect(() => {
+        if (!slides.length) return;
+
+        const intervalId = setInterval(() => {
+            setActiveIndex((prevIndex) => {
+                const nextIndex = (prevIndex + 1) % slides.length;
+                return nextIndex;
+            });
+        }, 5000); // 5 seconds
+
+        return () => clearInterval(intervalId);
+    }, [slides.length]);
+
+    // Sync carousel with activeIndex
+    useEffect(() => {
+        if (api) {
+            api.scrollTo(activeIndex);
+        }
+    }, [activeIndex, api]);
 
     if (!slides.length) {
         return null;
@@ -40,9 +61,10 @@ const HomeCarousel = ({ items = [], className }: HomeCarouselProps) => {
             <UiCarousel
                 className='w-full'
                 opts={{ align: 'start', loop: true }}
-                setApi={(api) => {
-                    api?.on('select', () => {
-                        setActiveIndex(api.selectedScrollSnap());
+                setApi={(carouselApi) => {
+                    setApi(carouselApi);
+                    carouselApi?.on('select', () => {
+                        setActiveIndex(carouselApi.selectedScrollSnap());
                     });
                 }}
             >
@@ -91,9 +113,9 @@ const HomeCarousel = ({ items = [], className }: HomeCarouselProps) => {
                     ))}
                 </CarouselContent>
 
-                {/* Controls */}
-                <CarouselPrevious className='-left-4 md:-left-12 bg-background/80 backdrop-blur-sm' />
-                <CarouselNext className='-right-4 md:-right-12 bg-background/80 backdrop-blur-sm' />
+                {/* Controls - Commented out as requested */}
+                {/* <CarouselPrevious className='-left-4 md:-left-12 bg-background/80 backdrop-blur-sm' />
+                <CarouselNext className='-right-4 md:-right-12 bg-background/80 backdrop-blur-sm' /> */}
 
                 {/* Indicators */}
                 <div className='absolute bottom-3 left-0 right-0 flex items-center justify-center gap-2 md:bottom-4'>

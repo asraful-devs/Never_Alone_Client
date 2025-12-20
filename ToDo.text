@@ -1,4 +1,15 @@
 footer all link page create . components design claude.ai te ase.
+
+footer page
+        { icon: Facebook, link: '#', label: 'Facebook' },
+        { icon: Twitter, link: '#', label: 'Twitter' },
+        { icon: Instagram, link: '#', label: 'Instagram' },
+        { icon: Linkedin, link: '#', label: 'LinkedIn' },
+
+
+        completed this time
+
+
 carusel    <-  ->     this button remove && also real Image & Event Links
 Event Real data add. Imgae Hd
 card design defferent 2 design show
@@ -19,16 +30,8 @@ Client (Next.js form)
 
 
 
-footer page
-        { icon: Facebook, link: '#', label: 'Facebook' },
-        { icon: Twitter, link: '#', label: 'Twitter' },
-        { icon: Instagram, link: '#', label: 'Instagram' },
-        { icon: Linkedin, link: '#', label: 'LinkedIn' },
 
 
 
 
 login && Register toast
-
-
-01782580550
