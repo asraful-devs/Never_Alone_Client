@@ -76,7 +76,7 @@ const Hero = () => {
                                 href='/register'
                                 className='inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-gray-900 dark:text-white bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-750 hover:border-gray-400 dark:hover:border-gray-600 transform hover:scale-105 transition-all duration-300'
                             >
-                                Create an Accounts
+                                Create an Account
                             </Link>
                         </div>
 
@@ -102,7 +102,7 @@ const Hero = () => {
 
                     {/* Right Image */}
                     <div className='relative lg:order-last order-first'>
-                        <div className='relative rounded-2xl overflow-hidden shadow-2xl'>
+                        <div className='relative rounded-2xl overflow-hidden shadow-2xl '>
                             <Image
                                 src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&h=600&fit=crop'
                                 alt='Group of diverse people enjoying activities together at an outdoor event'

@@ -17,6 +17,7 @@ const ContactUsPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        phone: '',
         subject: '',
         message: '',
     });
@@ -83,6 +84,7 @@ const ContactUsPage = () => {
         if (
             !formData.name ||
             !formData.email ||
+            !formData.phone ||
             !formData.subject ||
             !formData.message
         ) {
@@ -95,8 +97,8 @@ const ContactUsPage = () => {
         const emailBody = `
 Name: ${formData.name}
 Email: ${formData.email}
+Phone: ${formData.phone}
 Subject: ${formData.subject}
-
 Message:
 ${formData.message}
         `.trim();
@@ -113,6 +115,7 @@ ${formData.message}
             setFormData({
                 name: '',
                 email: '',
+                phone: '',
                 subject: '',
                 message: '',
             });
@@ -279,6 +282,26 @@ ${formData.message}
                                         value={formData.email}
                                         onChange={handleChange}
                                         placeholder='john@example.com'
+                                        className='w-full rounded-xl border border-border/50 bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all'
+                                    />
+                                </div>
+                                {/* Phone Number */}
+                                <div>
+                                    <label
+                                        htmlFor='phone'
+                                        className='block text-sm font-medium text-foreground mb-2'
+                                    >
+                                        Phone Number{' '}
+                                        <span className='text-red-500'>*</span>
+                                    </label>
+                                    <input
+                                        type='tel'
+                                        id='phone'
+                                        name='phone'
+                                        required
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        placeholder='123-456-7890'
                                         className='w-full rounded-xl border border-border/50 bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all'
                                     />
                                 </div>

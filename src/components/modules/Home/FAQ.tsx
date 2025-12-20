@@ -76,9 +76,9 @@ const FAQ = ({
     items = faqItems,
 }: FaqProps) => {
     return (
-        <section className='py-32'>
+        <section className='py-20 md:px-10 px-5 border-2 rounded-2xl border-muted/50'>
             <div className='container space-y-16'>
-                <div className='mx-auto flex max-w-3xl flex-col text-left md:text-center'>
+                <div className='mx-auto flex max-w-7xl flex-col text-left md:text-center'>
                     <h2 className='mb-3 text-3xl font-semibold md:mb-4 lg:mb-6 lg:text-4xl'>
                         {heading}
                     </h2>
@@ -89,7 +89,7 @@ const FAQ = ({
                 <Accordion
                     type='single'
                     collapsible
-                    className='mx-auto w-full lg:max-w-3xl'
+                    className='mx-auto w-full lg:max-w-7xl'
                 >
                     {items.map((item) => (
                         <AccordionItem key={item.id} value={item.id}>
