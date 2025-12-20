@@ -7,7 +7,7 @@ import {
     Linkedin,
     Mail,
     Phone,
-    Twitter,
+    X,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -60,10 +60,22 @@ const FOOTER_CONTENT: FooterContent = {
         ],
     },
     social: [
-        { icon: Facebook, link: '#', label: 'Facebook' },
-        { icon: Twitter, link: '#', label: 'Twitter' },
-        { icon: Instagram, link: '#', label: 'Instagram' },
-        { icon: Linkedin, link: '#', label: 'LinkedIn' },
+        {
+            icon: Facebook,
+            link: 'https://www.facebook.com/asraful.devs',
+            label: 'Facebook',
+        },
+        { icon: X, link: 'https://x.com/asraful_devs', label: 'X' },
+        {
+            icon: Instagram,
+            link: 'https://www.instagram.com/asraful.devs/',
+            label: 'Instagram',
+        },
+        {
+            icon: Linkedin,
+            link: 'https://www.linkedin.com/in/asraful-devs/',
+            label: 'LinkedIn',
+        },
     ],
     bottom: {
         copyright: '© 2026 Never Alone. All rights reserved.',
@@ -196,9 +208,9 @@ const PublicFooter = () => {
                                         key={index}
                                         href={social.link}
                                         aria-label={social.label}
-                                        className='group relative flex h-10 w-10 items-center justify-center rounded-xl border border-border/50 bg-background text-muted-foreground transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-1 active:translate-y-0'
+                                        className='group relative flex h-10 w-10 items-center justify-center rounded-xl border border-border/50 bg-background text-muted-foreground transition-all duration-300 hover:border-primary hover:bg-primary hover:text-white dark:hover:text-black hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-1 active:translate-y-0'
                                     >
-                                        <IconComponent className='h-4 w-4 transition-transform duration-300 group-hover:scale-110' />
+                                        <IconComponent className='h-4 w-4 transition-transform duration-300 group-hover:scale-110 ' />
                                     </a>
                                 );
                             })}

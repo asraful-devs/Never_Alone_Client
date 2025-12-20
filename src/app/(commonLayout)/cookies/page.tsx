@@ -57,7 +57,7 @@ const CookiePolicyPage = () => {
                 <div className='mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8'>
                     <div className='flex items-center gap-4 mb-6'>
                         <div className='flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-primary/80 shadow-lg shadow-primary/25'>
-                            <Cookie className='h-7 w-7 text-white' />
+                            <Cookie className='h-7 w-7 text-white dark:text-black' />
                         </div>
                         <div>
                             <h1 className='text-4xl font-bold bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent'>
