@@ -4,7 +4,7 @@ import { FAQ } from '../../components/modules/Home/FAQ';
 import Hero from '../../components/modules/Home/Hero';
 import HowToUse from '../../components/modules/Home/HowToUse';
 import NewEvents from '../../components/modules/Home/NewEvents';
-import Review from '../../components/modules/Home/Review';
+import Review from '../../components/modules/Home/ReviewSection';
 import { getCarousels } from '../../service/admin/carouselManagement';
 import { getEvents } from '../../service/events/eventsManagement';
 
