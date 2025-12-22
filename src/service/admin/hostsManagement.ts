@@ -110,6 +110,30 @@ export async function getHostById(id: string) {
 }
 
 /**
+ * GET HOST BY ID
+ * API: GET /host/get-single-host/:id
+ */
+export async function getHostByEmail(email: string) {
+    try {
+        const response = await serverFetch.get(
+            `/host/get-single-host-email/${email}`
+        );
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${
+                process.env.NODE_ENV === 'development'
+                    ? error.message
+                    : 'Something went wrong'
+            }`,
+        };
+    }
+}
+
+/**
  * UPDATE HOST
  * API: PATCH /host/update-host/:id
  */

@@ -110,6 +110,30 @@ export async function getAdminById(id: string) {
 }
 
 /**
+ * GET ADMIN BY ID
+ * API: GET /admin/:id
+ */
+export async function getAdminByEmail(email: string) {
+    try {
+        const response = await serverFetch.get(
+            `/admin/get-single-admin-email/${email}`
+        );
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        // console.log(error);
+        return {
+            success: false,
+            message: `${
+                process.env.NODE_ENV === 'development'
+                    ? error.message
+                    : 'Something went wrong'
+            }`,
+        };
+    }
+}
+
+/**
  * UPDATE ADMIN
  * API: PATCH /admin/:id
  */
@@ -247,6 +271,79 @@ export async function updateAdmin(
                 name,
                 contactNumber,
             },
+        };
+    }
+}
+
+/**
+ * UPDATE ADMIN
+ * API: PATCH /admin/update-admin/:email
+ */
+export async function updateAdminByEmail(
+    email: string,
+    _prevState: any,
+    formData: FormData
+) {
+    const name = formData.get('name') as string;
+    const contactNumber = formData.get('contactNumber') as string;
+    const file = formData.get('file') as File | null;
+
+    try {
+        // Validate that at least one field has changed
+        if (!name && !contactNumber && (!file || file.size === 0)) {
+            return {
+                success: false,
+                message: 'Please make at least one change to update',
+            };
+        }
+
+        const updateFormData = new FormData();
+
+        // Add fields to FormData
+        if (name) updateFormData.append('name', name);
+        if (contactNumber)
+            updateFormData.append('contactNumber', contactNumber);
+
+        // Add file if exists
+        if (file && file.size > 0) {
+            updateFormData.append('file', file);
+        }
+
+        const response = await fetch(
+            `${
+                process.env.NEXT_PUBLIC_API_URL
+            }/admin/update-admin/${encodeURIComponent(email)}`,
+            {
+                method: 'PATCH',
+                body: updateFormData,
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Server error:', errorText);
+            return {
+                success: false,
+                message: `Server error: ${response.statusText}`,
+            };
+        }
+
+        const result = await response.json();
+        console.log('Update result:', result);
+
+        return {
+            success: true,
+            message: result.message || 'Admin updated successfully',
+            data: result.data,
+        };
+    } catch (error: any) {
+        console.error('Update admin error:', error);
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === 'development'
+                    ? error.message
+                    : 'Failed to update admin',
         };
     }
 }

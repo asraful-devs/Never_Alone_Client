@@ -110,6 +110,30 @@ export async function getUserById(id: string) {
 }
 
 /**
+ * GET USER BY EMAIL
+ * API: GET /user/get-single-user-email/:email
+ */
+export async function getUserByEmail(email: string) {
+    try {
+        const response = await serverFetch.get(
+            `/user/get-single-user-email/${email}`
+        );
+        const result = await response.json();
+        return result;
+    } catch (error: any) {
+        console.log(error);
+        return {
+            success: false,
+            message: `${
+                process.env.NODE_ENV === 'development'
+                    ? error.message
+                    : 'Something went wrong'
+            }`,
+        };
+    }
+}
+
+/**
  * UPDATE USER
  * API: PATCH /user/update-user/:id
  */
@@ -270,6 +294,115 @@ export async function updateUser(
                 name,
                 contactNumber,
             },
+        };
+    }
+}
+
+/**
+ * UPDATE USER BY EMAIL
+ * API: PATCH /user/update-user/:email
+ *
+ * ⚠️ IMPORTANT:
+ * - Email দেওয়া হয় path param এ: /user/update-user/user@example.com
+ * - Body এ individual fields পাঠানো হয়: name, contactNumber, age, address, file
+ * - Backend এ req.params.email থেকে email পাবে
+ */
+export async function updateUserByEmail(
+    email: string,
+    _prevState: any,
+    formData: FormData
+) {
+    // Get nested data object from FormData
+    const dataStr = formData.get('data') as string;
+    const data = dataStr ? JSON.parse(dataStr) : {};
+
+    const name = data.name as string;
+    const contactNumber = data.contactNumber as string;
+    const age = Number(data.age);
+    const address = data.address as string;
+    const file = formData.get('file') as File | null;
+
+    const validationPayload: any = {};
+
+    if (name) validationPayload.name = name;
+    if (contactNumber) validationPayload.contactNumber = contactNumber;
+    if (age) validationPayload.age = age;
+    if (address) validationPayload.address = address;
+
+    const validation = zodValidator(
+        validationPayload,
+        UserValidation.updateUserValidationSchema
+    );
+
+    if (!validation.success && validation.errors) {
+        return {
+            success: validation.success,
+            message: 'Validation failed',
+            errors: validation.errors,
+        };
+    }
+
+    if (!validation.data) {
+        return {
+            success: false,
+            message: 'Validation failed',
+        };
+    }
+
+    try {
+        const updateFormData = new FormData();
+
+        const dataObject: any = {};
+        if (validation.data?.name) dataObject.name = validation.data.name;
+        if (validation.data?.contactNumber)
+            dataObject.contactNumber = validation.data.contactNumber;
+        if (validation.data?.age) dataObject.age = validation.data.age;
+        if (validation.data?.address)
+            dataObject.address = validation.data.address;
+
+        updateFormData.append('data', JSON.stringify(dataObject));
+
+        if (file && file.size > 0) {
+            updateFormData.append('file', file);
+        }
+
+        const response = await serverFetch.patch(
+            `/user/update-user/${encodeURIComponent(email)}`,
+            {
+                body: updateFormData,
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Backend error:', errorText);
+            return {
+                success: false,
+                message: `Server error: ${response.statusText}`,
+            };
+        }
+
+        const responseText = await response.text();
+
+        let result;
+        if (!responseText) {
+            result = {
+                success: true,
+                message: 'User updated successfully',
+            };
+        } else {
+            result = JSON.parse(responseText);
+        }
+
+        return result;
+    } catch (error: any) {
+        console.error('Update user error:', error);
+        return {
+            success: false,
+            message:
+                process.env.NODE_ENV === 'development'
+                    ? error.message
+                    : 'Failed to update user',
         };
     }
 }
