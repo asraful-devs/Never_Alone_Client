@@ -104,7 +104,7 @@ export async function getEvents(queryString?: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -126,7 +126,7 @@ export async function getEventById(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -287,7 +287,7 @@ export async function deleteEvent(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${

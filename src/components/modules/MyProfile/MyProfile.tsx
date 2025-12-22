@@ -18,15 +18,27 @@ const MyProfile = async ({ userInfo }: { userInfo: UserInfo }) => {
     switch (userRole) {
         case ADMIN:
             profileData = await getAdminByEmail(userInfo.email);
-            return <AdminProfileDetails profile={profileData} />;
+            return profileData?.data ? (
+                <AdminProfileDetails profile={profileData} />
+            ) : (
+                <div>Profile not found</div>
+            );
 
         case HOST:
             profileData = await getHostByEmail(userInfo.email);
-            return <HostProfileDetails profile={profileData} />;
+            return profileData?.data ? (
+                <HostProfileDetails profile={profileData} />
+            ) : (
+                <div>Profile not found</div>
+            );
 
         case USER:
             profileData = await getUserByEmail(userInfo.email);
-            return <UserProfileDetails profile={profileData} />;
+            return profileData?.data ? (
+                <UserProfileDetails profile={profileData} />
+            ) : (
+                <div>Profile not found</div>
+            );
 
         default:
             return <div>Invalid user role</div>;

@@ -130,7 +130,7 @@ export async function deleteBooking(id: string) {
         const result = await response.json();
         return { success: true, ...result };
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message:

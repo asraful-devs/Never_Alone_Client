@@ -80,12 +80,12 @@ export const userNavItems: NavSection[] = [
             //     icon: 'Calendar', // ✅ String
             //     roles: ['USER'],
             // },
-            {
-                title: 'My Reviews',
-                href: '/user/dashboard/my-reviews',
-                icon: 'Calendar', // ✅ String
-                roles: ['USER'],
-            },
+            // {
+            //     title: 'My Reviews',
+            //     href: '/user/dashboard/my-reviews',
+            //     icon: 'Calendar', // ✅ String
+            //     roles: ['USER'],
+            // },
         ],
     },
 ];

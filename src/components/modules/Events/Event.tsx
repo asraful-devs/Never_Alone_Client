@@ -33,12 +33,12 @@ const Event = ({ eventsData, isLoading }: EventProps) => {
         <div className='min-h-screen bg-background py-12 px-4 md:px-8'>
             <div className='max-w-7xl mx-auto space-y-12'>
                 {/* Header */}
-                <div className='space-y-2'>
+                <div className='space-y-2 text-center'>
                     <h1 className='text-4xl md:text-5xl font-bold text-foreground'>
                         Discover Events
                     </h1>
                     <p className='text-lg text-muted-foreground'>
-                        Find and join amazing events near you
+                        Find and join amazing events near you....
                     </p>
                 </div>
 

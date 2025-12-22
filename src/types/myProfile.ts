@@ -23,6 +23,7 @@ export type HostProfile = {
         isVerified: boolean;
         createdAt: string;
         updatedAt: string;
+        isDeleted?: boolean;
     };
 };
 
@@ -37,6 +38,7 @@ export type UserProfile = {
         age?: number;
         createdAt: string;
         updatedAt: string;
+        isDeleted?: boolean;
     };
 };
 

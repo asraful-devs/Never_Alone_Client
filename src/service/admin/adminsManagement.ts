@@ -75,7 +75,7 @@ export async function getAdmins(queryString?: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -97,7 +97,7 @@ export async function getAdminById(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -329,7 +329,7 @@ export async function updateAdminByEmail(
         }
 
         const result = await response.json();
-        console.log('Update result:', result);
+        // console.log('Update result:', result);
 
         return {
             success: true,
@@ -360,7 +360,7 @@ export async function softDeleteAdmin(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -382,7 +382,7 @@ export async function deleteAdmin(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${

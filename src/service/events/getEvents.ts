@@ -13,7 +13,7 @@ export async function getEvents(queryString?: string) {
         return result;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${

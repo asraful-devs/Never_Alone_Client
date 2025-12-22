@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Save, X } from 'lucide-react';
@@ -27,7 +28,7 @@ const UpdateForm = ({
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            toast.loading('Updating...');
+            // toast.loading('Updating...');
 
             const sendData = new FormData();
 
@@ -39,7 +40,7 @@ const UpdateForm = ({
                 dataObj.contactNumber = formData.contactNumber;
             if (formData.address) dataObj.address = formData.address;
 
-            console.log('FormData sending:', dataObj);
+            // console.log('FormData sending:', dataObj);
 
             // Always append data (even if empty object)
             sendData.append('data', JSON.stringify(dataObj));

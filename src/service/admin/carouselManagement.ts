@@ -89,7 +89,7 @@ export async function getCarousels(queryString?: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -113,7 +113,7 @@ export async function deleteCarousel(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${

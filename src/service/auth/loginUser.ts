@@ -19,7 +19,7 @@ export const loginUser = async (
 ): Promise<any> => {
     try {
         if (!formData) {
-            console.log('❌ loginUser called with null/undefined formData');
+            // console.log('❌ loginUser called with null/undefined formData');
             return {
                 success: false,
                 message: 'No data received for login.',
@@ -152,7 +152,7 @@ export const loginUser = async (
         if ((error as any)?.digest?.startsWith?.('NEXT_REDIRECT')) {
             throw error;
         }
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${

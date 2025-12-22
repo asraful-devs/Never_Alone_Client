@@ -111,7 +111,7 @@ export async function getCategories(queryString?: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -135,7 +135,7 @@ export async function deleteCategory(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${

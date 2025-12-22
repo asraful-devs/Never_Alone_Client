@@ -75,7 +75,7 @@ export async function getHosts(queryString?: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -97,7 +97,7 @@ export async function getHostById(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -121,7 +121,7 @@ export async function getHostByEmail(email: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -259,7 +259,7 @@ export async function updateHost(
             };
         } else {
             result = JSON.parse(responseText);
-            console.log('Update result:', result);
+            // console.log('Update result:', result);
         }
 
         return result;
@@ -292,7 +292,7 @@ export async function softDeleteHost(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${
@@ -314,7 +314,7 @@ export async function deleteHost(id: string) {
         const result = await response.json();
         return result;
     } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         return {
             success: false,
             message: `${

@@ -16,7 +16,7 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     // Toast notification handler
-    console.log(state, 'login form');
+    // console.log(state, 'login form');
     useEffect(() => {
         // console.log('object');
         if (!state) return;

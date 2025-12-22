@@ -6,9 +6,9 @@ interface ProfileData {
     id: string;
     name: string;
     email: string;
-    profilePhoto: string;
-    contactNumber: string;
-    isDeleted: boolean;
+    profilePhoto?: string;
+    contactNumber?: string;
+    isDeleted?: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -23,7 +23,7 @@ const ProfileHeader = ({
     profile: ProfileData;
     role: Role;
 }) => {
-    console.log(profile, 'Hello');
+    // console.log(profile, 'Hello');
     return (
         <div className='relative bg-linear-to-br from-blue-600 via-blue-700 to-purple-700 dark:from-blue-900 dark:via-purple-900 dark:to-indigo-900 rounded-2xl p-6 md:p-8 text-white shadow-xl overflow-hidden'>
             {/* Background Pattern */}

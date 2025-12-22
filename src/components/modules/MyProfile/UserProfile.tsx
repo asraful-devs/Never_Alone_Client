@@ -23,7 +23,15 @@ const UserProfileDetails = ({ profile }: { profile: UserProfile }) => {
             <div className='max-w-7xl mx-auto p-4 md:p-6 lg:p-8'>
                 {/* Header Section */}
                 <div className='mb-6'>
-                    <ProfileHeader profile={profile.data} role='USER' />
+                    <ProfileHeader
+                        profile={{
+                            ...profile?.data,
+                            isDeleted: profile?.data?.isDeleted ?? false,
+                            profilePhoto: profile?.data?.profilePhoto ?? '',
+                            contactNumber: profile?.data?.contactNumber ?? '',
+                        }}
+                        role='USER'
+                    />
                 </div>
 
                 {/* Stats Grid */}
